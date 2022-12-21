@@ -1,12 +1,30 @@
+import { useEffect } from "react";
 import Dashboard from "../components/dashboard";
-import HeatMap from "../components/HeatMap";
-import Login from "../components/Login";
-import { useAuth } from "../context/AuthContext";
+import HeatMap from "../components/HeatMap"; 
+import { PrismaClient, Prisma } from '@prisma/client'
 
-export default function Home() {
+const prisma = new PrismaClient()
 
-  const { user } = useAuth();
+export default function Home(props:{
+  fieldNames:string[],
+  distinctsOrganization:string[]
+}) {
+
+
   return  <div>
-    {user ? <Dashboard /> : <Login />}
+    <Dashboard {...props} /> 
   </div>
+}
+
+
+export const getServerSideProps = async ({ req }) => {
+  
+  const token = req.headers.AUTHORIZATION
+  const distinctsOrganization = await prisma.organizations.findMany({
+    distinct:["organization"]
+  })
+  const fieldNames = Prisma.dmmf.datamodel.models.find(model => model.name === "Organizations")?.fields.map(
+    (field) => field.name
+  )
+  return { props: { distinctsOrganization, fieldNames } }
 }

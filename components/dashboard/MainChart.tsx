@@ -1,6 +1,6 @@
 
 import { Doughnut, Radar, Pie, Bar } from 'react-chartjs-2';
-import 'chart.js/auto'
+import "chart.js/auto";
 import React, { useState } from 'react'; 
 
 const MainChart = (
@@ -35,7 +35,6 @@ const MainChart = (
                         }
                     }
                 }
-                console.log(options)
                 return <Doughnut data={data} options={options} />
             case "radar":
                 return <Radar data={data} options={options} />

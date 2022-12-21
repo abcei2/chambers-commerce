@@ -1,10 +1,15 @@
+
 import ChartSection from "./ChartSection"
 
-const Dashboard = () => {
+
+const Dashboard = (props: {
+    distinctsOrganization: string[]
+}) => {
+
     return <div className="md:grid md:grid-cols-4 p-10 gap-4">
         <div className="col-span-3">
 
-            <ChartSection />
+            <ChartSection  {...props} />
         </div>
         <div className="flex flex-col gap-5">
             <div className="text-xl">
@@ -40,5 +45,6 @@ const Dashboard = () => {
         </div>
     </div>
 }
+
 
 export default Dashboard

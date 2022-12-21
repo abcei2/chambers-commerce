@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Locations {
+  id Int @id @default(autoincrement())
+
+  organizations Organizations[]
+
+  organization String
+  nit          String
+  lat          Float
+  long         Float
+  category     String
+  kind         String
+  address      String
+  municipality String
+  webPage      String @db.Text
+  phone        String
+}
+
+model Organizations {
+  id Int @id @default(autoincrement())
+
+  locationId Int
+  location   Locations @relation(fields: [locationId], references: [id])
+
+  organization     String
+  category         String
+  kind             String
+  address          String
+  municipality     String
+  contact          String
+  webPage          String @db.Text
+  position         String
+  email            String
+  phone            String
+  area             String
+  productiveSector String
+
+  rdUnits              String
+  invGroup             String
+  minicienciasCategory String
+  center               String
+  laboratory           String
+
+  ri4     Int
+  ri4Type String
+
+  bussinesModel1 String
+  bussinesModel2 String
+  bussinesModel3 String
+  bussinesModel4 String
+  bussinesModel5 String
+
+  client1 String
+  client2 String
+  client3 String
+  client4 String
+}

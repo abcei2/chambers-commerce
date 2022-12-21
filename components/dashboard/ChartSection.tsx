@@ -1,45 +1,36 @@
 import MainChart from "./MainChart";
-import readXlsxFile from 'read-excel-file'
-import { useEffect, useRef } from "react";
-import { saveOrganizations } from "../../db/project";
+import { useEffect, useState } from "react";
+import UploadData from "../UploadData";
 
-// File.
 
-const ChartSection = () => {
-    const inputRef = useRef()
-    const data = {
-        labels: ['1. Institución Técnica Profesional.',
-            '2. Institución Tecnológica.', '3. Institución Universitaria/ Escuela Tecnológica.',
-            '4. Universidad.', '5. Centros de Investigación.', '6. Centros de Innovación.'],
-        datasets: [
-            {
-                label: '# de entidades',
-                data: [12, 19, 3, 5, 2, 3]
-            },
-        ],
-    };
-    const onFileChange = (ev) => {
+const ChartSection = (props: {
+    distinctsOrganization: string[]
+}) => {
+    const [chartsData, setChartsData] = useState<any>()
 
-        console.log(ev.target)
-            readXlsxFile(ev.target.files[0]).then((rows) => {
-                saveOrganizations(rows.slice(1,rows.length))
-                
-            })
-    }
- 
+    useEffect(
+        ()=>{
+            fetch(
+                "/api/db/distincts"
+            ).then(
+                (data)=>data.json()
+            ).then(
+                (chartsDataJson) =>setChartsData(chartsDataJson)
+            )
+        }
+    )
+    if (!chartsData)
+        return <></>
 
     return (<div className='flex flex-col overflow-auto p-10 '>
-        <div className='flex h-auto'>
-            <MainChart data={data} />
-            <MainChart data={data} />
-            <MainChart data={data} />
+        <div className='grid grid-cols-3 h-auto min-w-[900px]'>
+            {
+                Object.keys(chartsData).map(
+                    (chartParam, index) => <MainChart key={index} data={chartsData[chartParam]} />
+                )
+            }
         </div>
-        <div className='flex h-auto'>
-            <MainChart data={data} />
-            <MainChart data={data} />
-            <MainChart data={data} />
-        </div>
-        <input type="file" onChange={onFileChange} />
+
     </div>
     )
 }
