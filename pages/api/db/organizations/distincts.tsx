@@ -20,7 +20,8 @@ export default async function handler(
 }
 
 
-const getChartData= async (fieldName:any)=>{
+const getChartData = async (fieldName:any)=>{
+
     const charData: any = {
         labels: [],
         datasets: [
@@ -30,6 +31,7 @@ const getChartData= async (fieldName:any)=>{
             },
         ],
     }
+
     const groupBy = await prisma.organizations.groupBy({
         by: [fieldName],
         _count: {
@@ -40,8 +42,10 @@ const getChartData= async (fieldName:any)=>{
     charData.labels = groupBy.map(
         (item) => item[fieldName].toString()
     )
+
     charData.datasets[0].data = groupBy.map(
         (item) => item._count[fieldName]
     )
+
     return charData
 }

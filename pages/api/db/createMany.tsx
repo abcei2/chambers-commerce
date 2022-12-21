@@ -13,7 +13,6 @@ export default async function handler(
 ) {
 
     const data2 = JSON.parse(req.body).data
-    console.log(data2)
     const created = await data2.reduce(
         async (prev: any, current: any) => prev = prev + await prisma.locations.create({
             data: {
@@ -25,9 +24,5 @@ export default async function handler(
             }
         }),0
     )
-    console.log(created)
-    // const created = await prisma.organizations.createMany(
-    //     data,
-    // )
     res.status(200).json({ createdAmount: created })
 }

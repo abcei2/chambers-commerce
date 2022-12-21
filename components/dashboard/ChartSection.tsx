@@ -3,22 +3,23 @@ import { useEffect, useState } from "react";
 import UploadData from "../UploadData";
 
 
-const ChartSection = (props: {
-    distinctsOrganization: string[]
-}) => {
+const ChartSection = () => {
     const [chartsData, setChartsData] = useState<any>()
 
     useEffect(
         ()=>{
             fetch(
-                "/api/db/distincts"
+                "/api/db/organizations/distincts"
             ).then(
                 (data)=>data.json()
             ).then(
                 (chartsDataJson) =>setChartsData(chartsDataJson)
             )
-        }
+
+ 
+        },[]
     )
+
     if (!chartsData)
         return <></>
 
