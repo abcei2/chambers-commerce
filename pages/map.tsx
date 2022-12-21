@@ -1,9 +1,12 @@
 
 import HeatMap from "../components/heatmap";
+import { HeatMapContextProvider } from "../context/HeatMapContext";
 
 export default function Map() {
     return <div>
-        <HeatMap />
+        <HeatMapContextProvider>
+            <HeatMap />
+        </HeatMapContextProvider>
     </div>
 }
 

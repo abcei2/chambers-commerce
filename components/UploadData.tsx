@@ -1,29 +1,8 @@
 
 import readXlsxFile, { Row } from 'read-excel-file'
-import { useRef, useState } from "react";
+import { floatFields, integerFields, locationFields, organizationFields } from '../constants';
 // File.
-const organizationFields = [
-    'organization', 'category', 'kind', 'address',
-    'municipality', 'webPage', 'contact', 'position',
-    'email', 'phone', 'area', 'productiveSector', 'rdUnits',
-    'invGroup', 'minicienciasCategory', 'center', 'laboratory',
-    'ri4', 'ri4Type', 'bussinesModel1', 'bussinesModel2', 'bussinesModel3',
-    'bussinesModel4', 'bussinesModel5', 'client1', 'client2', 'client3', 'client4'
-]
-const locationFields = [
-    "organization",
-    "nit",
-    "lat", "long",
-    "category",
-    "kind",
-    "address",
-    "municipality",
-    "webPage",
-    "phone",
-]
 
-const integerFields = ["ri4"]
-const floatFields = ["lat", "long"]
 
 const UploadData = () => {
 
@@ -48,7 +27,7 @@ const UploadData = () => {
     )
 
 
-    const onFileChange = async (ev) => {
+    const onFileChange = async (ev:any) => {
 
         const locationRows = await readXlsxFile(ev.target.files[0], { sheet: 2 })
         const organizationRows = await readXlsxFile(ev.target.files[0], { sheet: 1 })
