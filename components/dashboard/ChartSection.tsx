@@ -8,7 +8,7 @@ const ChartSection = () => {
     useEffect(
         ()=>{
             fetch(
-                "/api/db/organizations/distincts"
+                "/api/db/organizations/chartsdata"
             ).then(
                 (data)=>data.json()
             ).then(

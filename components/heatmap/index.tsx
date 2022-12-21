@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
 import { Map, Source, Layer } from 'react-map-gl';
-
-
 import type { MapRef } from 'react-map-gl';
 import type { GeoJSONSource } from 'react-map-gl';
 import type { LayerProps } from 'react-map-gl';

@@ -1,10 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { Prisma, PrismaClient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { chartFields } from '../../../../constants'
 
-const chartFields = [
-    'category', 'kind', 'area', 'productiveSector', 'ri4', 
-]
+
 const prisma = new PrismaClient()
 
 export default async function handler(
