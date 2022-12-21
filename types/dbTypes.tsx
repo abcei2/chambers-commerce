@@ -44,7 +44,7 @@ export type OrganizationsType = {
 
 export type LocationsType = {
     id?: number,
-    organizations:Organizations[]
+    organizations:OrganizationsType[]
     organization: string,
     nit: string,
     lat: number,

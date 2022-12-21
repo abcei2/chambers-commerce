@@ -33,7 +33,7 @@ const Filter = () => {
         )
     }, [])
 
-    const submitFilters = (ev) => {
+    const submitFilters = (ev:any) => {
         ev.preventDefault()   
 
         updateData(filterOptions)  
@@ -45,7 +45,7 @@ const Filter = () => {
     return (
         <>
             <div className="w-full flex justify-end">
-                <div className='bg-zinc-300 w-80 rounded fixed max-h-[90%] overflow-auto'>
+                <div className='bg-zinc-300 w-80 rounded fixed max-h-[90%] overflow-auto '>
                     <div className='flex justify-center flex-col p-10 gap-5 max-h-[90%]  overflow-auto'>
                         {
 
@@ -68,10 +68,12 @@ const Filter = () => {
                         }
                     </div>
                 </div>
-                <div className='bg-zinc-300 w-80 rounded fixed'>
+                <div className='bg-zinc-300 w-80 rounded fixed flex justify-center p-5'>
 
-                    <button onClick={submitFilters} type="submit">Submit</button>
-                    <button onClick={clearFilters} type="submit">Clear</button>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                     onClick={submitFilters} type="submit">Submit</button>
+                    <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" 
+                        onClick={clearFilters} type="submit">Clear</button>
                 </div>
 
             </div>
