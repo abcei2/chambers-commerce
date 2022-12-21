@@ -1,6 +1,5 @@
 import MainChart from "./MainChart";
 import { useEffect, useState } from "react";
-import UploadData from "../UploadData";
 
 
 const ChartSection = () => {
