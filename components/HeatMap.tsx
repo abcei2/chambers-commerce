@@ -1,6 +1,4 @@
-import * as React from 'react';
-import { useRef } from 'react';
-import { render } from 'react-dom';
+import { useRef, useEffect, useState } from 'react';
 import { Map, Source, Layer } from 'react-map-gl';
 
 
@@ -46,51 +44,57 @@ const unclusteredPointLayer: LayerProps = {
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN; // Set your mapbox token here
 
-function ControlPanel() {
-    return (
-        <div className="control-panel">
-            <h3>Create and Style Clusters</h3>
-            <p>Use Mapbox GL JS' built-in functions to visualize points as clusters.</p>
-            <div className="source-link">
-                <a
-                    href="https://github.com/visgl/react-map-gl/tree/7.0-release/examples/clusters"
-                    target="_new"
-                >
-                    View Code ↗
-                </a>
-            </div>
-        </div>
-    );
-}
 
 const data: any = {
     "type": "FeatureCollection",
     "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-    "features": [
-        { "type": "Feature", "properties": { "id": "ak16994521", "mag": 2.3, "time": 1507425650893, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-151.5129, 63.1016, 0.0] } },
-        { "type": "Feature", "properties": { "id": "ak16994519", "mag": 1.7, "time": 1507425289659, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-150.4048, 63.1224, 105.5] } },
-        { "type": "Feature", "properties": { "id": "ak16994517", "mag": 1.6, "time": 1507424832518, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-151.3597, 63.0781, 0.0] } },
-        { "type": "Feature", "properties": { "id": "ci38021336", "mag": 1.42, "time": 1507423898710, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-118.497, 34.299667, 7.64] } },
-        { "type": "Feature", "properties": { "id": "us2000b2nn", "mag": 4.2, "time": 1507422626990, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-87.6901, 12.0623, 46.41] } },
-        { "type": "Feature", "properties": { "id": "ak16994510", "mag": 1.6, "time": 1507422449194, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-151.5053, 63.0719, 0.0] } },
-        { "type": "Feature", "properties": { "id": "us2000b2nb", "mag": 4.6, "time": 1507420784440, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-178.4576, -20.2873, 614.26] } },
-        { "type": "Feature", "properties": { "id": "ak16994298", "mag": 2.4, "time": 1507419370097, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-148.789, 63.1725, 7.5] } },
-        { "type": "Feature", "properties": { "id": "nc72905861", "mag": 1.39, "time": 1507418785100, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-120.993164, 36.421833, 6.37] } },
-        { "type": "Feature", "properties": { "id": "ci38021304", "mag": 1.11, "time": 1507418426010, "felt": null, "tsunami": 0 }, "geometry": { "type": "Point", "coordinates": [-117.0155, 33.656333, 12.37] } }]
+    "features": []
 }
+
 
 
 
 const HeatMap = () => {
     const mapRef = useRef<MapRef>(null);
+    const [heatMapData, setHeatMapData] = useState(data)
+
+    useEffect(() => {
+        fetch("/api/db/locations/getall").then(
+            response => response.json()
+        ).then(
+            (jsonData) => {
+                const locationDataArray = jsonData.data
+                setHeatMapData(
+                    (oldHeatMapData: any) =>{
+                        return {
+                        ...oldHeatMapData,
+                            features: [...oldHeatMapData.features, ...locationDataArray.map(
+                            (locationData: any) => ({
+                                type: "Feature",
+                                properties: {},
+                                geometry: {
+                                    type: "Point",
+                                    coordinates: [locationData.long || 0, locationData.lat || 0, 7.64]
+                                }                                
+                            })
+                        )]}
+                    }
+                )
+            }
+        )
+    }, [])
 
     const onClick = (event: any) => {
         if (!mapRef.current)
             return
         const feature = event.features[0];
-        const clusterId = feature.properties.cluster_id;
 
         const mapboxSource = mapRef.current.getSource('earthquakes') as GeoJSONSource;
+
+        if (!feature)
+            return
+
+        const clusterId = feature.properties.cluster_id;
 
         mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
             if (err) {
@@ -105,16 +109,19 @@ const HeatMap = () => {
         });
     };
 
+    if (heatMapData.features.lenght==0)
+        return <></>
+
     return (
         <>
             <div className="w-full h-full absolute">
                 <Map
                     initialViewState={{
-                        latitude: 40.67,
-                        longitude: -103.59,
-                        zoom: 3
+                        latitude: 6.251029,
+                        longitude: -75.580353,
+                        zoom: 12
                     }}
-                    mapStyle="mapbox://styles/mapbox/dark-v9"
+                    mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
                     mapboxAccessToken={MAPBOX_TOKEN}
                     interactiveLayerIds={[clusterLayer.id || ""]}
                     onClick={onClick}
@@ -124,7 +131,7 @@ const HeatMap = () => {
                     <Source
                         id="earthquakes"
                         type="geojson"
-                        data={data}
+                        data={heatMapData}
                         cluster={true}
                         clusterMaxZoom={14}
                         clusterRadius={50}
@@ -135,8 +142,8 @@ const HeatMap = () => {
                     </Source>
                 </Map>
             </div>
-            <div className="w-full h-full absolute flex justify-end items-center p-10 ">
-                <div className='bg-zinc-300 w-96 h-[70%] rounded'>
+            <div className="w-full flex justify-end">
+                <div className='bg-zinc-300 w-80 h-[70%] rounded fixed m-10'>
                     <div className='flex justify-center flex-col p-10 gap-5'>
                         <div className='grid grid-cols-2 w-[70%] gap-5'>
                             <label>Carácter</label>
@@ -147,7 +154,7 @@ const HeatMap = () => {
                             </select>
                         </div>
                         <div className='grid grid-cols-2 w-[70%] gap-5'>
-                            <label>Categoria</label>                                  
+                            <label>Categoria</label>
                             <select className='w-32'>
                                 <option value="Institución Técnica Profesional.">Institución Técnica Profesional.</option>
                                 <option value="Institución Tecnológica.">Institución Tecnológica.</option>
