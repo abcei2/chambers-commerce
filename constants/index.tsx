@@ -29,7 +29,6 @@ export const filterFields:any = {
     category: "Categoría",
     area: "Area",
     productiveSector: "Sector Productivo",
-    ri4: "4RI",
     municipality:"Municipio",
     ri4Type: "Tipo de 4RI",
 }

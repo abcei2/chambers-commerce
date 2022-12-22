@@ -5,14 +5,14 @@ import { HeatMapContext } from "../../context/HeatMapContext";
 
 const Filter = () => {
 
-    const [selectsOption, setSelectOption] = useState()
-    const [filterOptions, setFilterOptions] = useState({})
+    const [selectsOption, setSelectOption] = useState<any>()
+    const [filterOptions, setFilterOptions] = useState<any>({})
     const { updateData } = useContext(HeatMapContext)
 
 
     useEffect(() => {
         Object.keys(filterFields).forEach(
-            (filterKey:any) => {
+            (filterKey: any) => {
                 fetch("/api/db/organizations/distincts?" + new URLSearchParams({
                     field: filterKey,
                 })).then(
@@ -40,9 +40,11 @@ const Filter = () => {
        
     }
 
-    const clearFilters = () => setFilterOptions({})
+    const clearFilters = () => {
+        setFilterOptions({})
+        updateData({})
+    }
 
-    console.log(selectsOption)
     return (
         <>
             <div className="w-full flex justify-end">
@@ -61,23 +63,28 @@ const Filter = () => {
                             selectsOption && Object.keys(selectsOption).map(
                                 (selectParam: any, indexSelect) => <div key={indexSelect} className='grid grid-cols-2 w-[70%] gap-5'>
                                     <label>{filterFields[selectParam]}</label>
-                                    <Select onChange={
-                                        (ev:any)=>{
-                                            setFilterOptions(
-                                                oldFilterOpts => ({
-                                                    ...oldFilterOpts,
-                                                    [selectParam]:ev.value
-                                                })
-                                            )
-                                        }
-                                    } name={selectParam} className="min-w-[150px]" options={selectsOption[selectParam]} />
+                                    <Select
+                                        name={selectParam}
+                                        value={selectsOption[selectParam].filter(
+                                            (selectOpt: any) => selectOpt.value == filterOptions[selectParam]
+                                        )}
+                                        onChange={
+                                            (ev: any) => {
+                                                setFilterOptions(
+                                                    (oldFilterOpts: any) => ({
+                                                        ...oldFilterOpts,
+                                                        [selectParam]: ev.value
+                                                    })
+                                                )
+                                            }
+                                        } className="min-w-[150px]" options={selectsOption[selectParam]} />
                                 </div>
                             )
 
                         }
                     </div>
                 </div>
-         
+
 
             </div>
         </>

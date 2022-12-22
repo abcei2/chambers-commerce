@@ -65,7 +65,7 @@ const HeatMap = () => {
     }, [])
 
     const onClick = (event: any) => {
-        if (!mapRef.current)
+        if (!mapRef.current || !event.features)
             return
         const feature = event.features[0];
 
