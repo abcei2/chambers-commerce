@@ -46,7 +46,7 @@ const Filter = () => {
         <>
             <div className="w-full flex justify-end">
                 <div className='bg-zinc-300 w-80 rounded fixed max-h-[90%] overflow-auto '>
-                    <div className='flex justify-center flex-col p-10 gap-5 max-h-[90%]  overflow-auto'>
+                    <div className='flex justify-center flex-col p-10 gap-5 max-h-[90%]'>
                         {
 
                             selectsOption && Object.keys(selectsOption).map(
