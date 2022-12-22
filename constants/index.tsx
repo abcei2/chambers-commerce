@@ -25,8 +25,8 @@ export const integerFields = ["ri4"]
 export const floatFields = ["lat", "long"]
 
 export const filterFields:any = {    
-    category: "Categoía",
     kind: "Característica",
+    category: "Categoría",
     area: "Area",
     productiveSector: "Sector Productivo",
     ri4: "4RI",

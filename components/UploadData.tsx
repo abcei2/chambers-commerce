@@ -9,7 +9,7 @@ const UploadData = () => {
     const toDbData = async (rows: Row[], fieldNames: string[], fieldNameOffset: number = 0) => rows.map(
         (row) => row.reduce(
             (prev, current: any, currentIndex) => {
-                if (currentIndex == fieldNameOffset - fieldNameOffset) return {}
+                if (currentIndex == fieldNameOffset - 1) return {}
                 let currentData: any = current
                 if (integerFields.includes(fieldNames[currentIndex - fieldNameOffset]))
                     currentData = parseInt(current) || 0
@@ -49,7 +49,6 @@ const UploadData = () => {
                     data: locationData
                 })
             })
-        console.log(dataUploaded)
     }
 
     return <input type="file" onChange={onFileChange} />
