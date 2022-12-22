@@ -1,10 +1,12 @@
-import { useRef, useEffect, useState, useContext } from 'react';
-import { Map, Source, Layer } from 'react-map-gl';
+import { useRef, useEffect, useContext } from 'react';
+import { Map, Source, Layer, NavigationControl } from 'react-map-gl';
 import type { MapRef } from 'react-map-gl';
 import type { GeoJSONSource } from 'react-map-gl';
 import type { LayerProps } from 'react-map-gl';
 import Filter from './Filter';
 import { HeatMapContext } from '../../context/HeatMapContext';
+import 'mapbox-gl/dist/mapbox-gl.css'
+
 
 const clusterLayer: LayerProps = {
     id: 'clusters',
@@ -101,11 +103,11 @@ const HeatMap = () => {
                     }}
                     mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
                     mapboxAccessToken={MAPBOX_TOKEN}
-                    interactiveLayerIds={[clusterLayer.id || ""]}
                     onClick={onClick}
-
                     ref={mapRef}
                 >
+
+                    <NavigationControl position='top-left' />
                     <Source
                         id="organizations"
                         type="geojson"
@@ -118,7 +120,7 @@ const HeatMap = () => {
                         <Layer {...clusterCountLayer} />
                         <Layer {...unclusteredPointLayer} />
                     </Source>
-                </Map>
+                </Map >
             </div>
             <Filter/>
         </>
