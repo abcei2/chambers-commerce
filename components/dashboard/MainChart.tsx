@@ -69,11 +69,11 @@ const MainChart = (
                         }
                     }
                 }
-                return <Pie data={data} options={options} />
+                return <Doughnut data={data} options={options} />
         }
     }
 
-    return <div className='border-2 border-black p-5'>
+    return <div className='border-2 border-black rounded'>
         <select onChange={onTypeChange}>
             {
                 chartTypes.map(
