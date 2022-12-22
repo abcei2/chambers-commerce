@@ -71,9 +71,9 @@ const Filter = () => {
                 <div className='bg-zinc-300 w-80 rounded fixed flex justify-center p-5'>
 
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
-                     onClick={submitFilters} type="submit">Submit</button>
+                     onClick={submitFilters}>Submit</button>
                     <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" 
-                        onClick={clearFilters} type="submit">Clear</button>
+                        onClick={clearFilters}>Clear</button>
                 </div>
 
             </div>
