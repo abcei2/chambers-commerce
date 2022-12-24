@@ -27,9 +27,6 @@ export const getChartData = async (fieldName: any) => {
 
     const groupBy = await prisma.organizations.groupBy({
         by: [fieldName],
-        where: {
-            locationId: 846
-        },
         _count: {
             [fieldName]: true,
         }
