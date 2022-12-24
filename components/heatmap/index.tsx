@@ -47,15 +47,6 @@ const unclusteredPointLayer: LayerProps = {
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN; // Set your mapbox token here
 
 
-const data: any = {
-    "type": "FeatureCollection",
-    "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-    "features": []
-}
-
-
-
-
 const HeatMap = () => {
     const mapRef = useRef<MapRef>(null);
     const { updateData, heatMapData } = useContext(HeatMapContext)
@@ -93,37 +84,37 @@ const HeatMap = () => {
         return <></>
 
     return (
-        <>
-            <div className="w-full h-full absolute">
-                <Map
-                    initialViewState={{
-                        latitude: 6.251029,
-                        longitude: -75.580353,
-                        zoom: 12
-                    }}
-                    mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
-                    mapboxAccessToken={MAPBOX_TOKEN}
-                    onClick={onClick}
-                    ref={mapRef}
-                >
+        <Map
+            initialViewState={{
+                latitude: 6.251029,
+                longitude: -75.580353,
+                zoom: 12
+            }}
+            mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
+            mapboxAccessToken={MAPBOX_TOKEN}
+            onClick={onClick}
+            style={
+                {
+                    borderRadius:"20px"
+                }
+            }
+            ref={mapRef}
+        >
 
-                    <NavigationControl position='top-left' />
-                    <Source
-                        id="organizations"
-                        type="geojson"
-                        data={heatMapData}
-                        cluster={true}
-                        clusterMaxZoom={14}
-                        clusterRadius={50}
-                    >
-                        <Layer {...clusterLayer} />
-                        <Layer {...clusterCountLayer} />
-                        <Layer {...unclusteredPointLayer} />
-                    </Source>
-                </Map >
-            </div>
-            <Filter/>
-        </>
+            <NavigationControl position='top-left' />
+            <Source
+                id="organizations"
+                type="geojson"
+                data={heatMapData}
+                cluster={true}
+                clusterMaxZoom={14}
+                clusterRadius={50}
+            >
+                <Layer {...clusterLayer} />
+                <Layer {...clusterCountLayer} />
+                <Layer {...unclusteredPointLayer} />
+            </Source>
+        </Map >
     );
 }
 export default HeatMap

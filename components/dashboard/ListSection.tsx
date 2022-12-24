@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { OrganizationsType } from "../../types/dbTypes"
 
-const PAGE_SIZE = 4
+const PAGE_SIZE = 5
 const ListSection = () => {
 
     const [organizationList, setOrganizationList] = useState<any>()
@@ -42,10 +42,10 @@ const ListSection = () => {
 
     
         <div className="grid grid-cols-1 overflow-auto scrollbar md:h-[700px] h-[500px]">
-
+            
             {
                 organizationList && organizationList.map(
-                    (organizationInfo: OrganizationsType, index: number) => <div key={index} className="p-5 hover:bg-gray-100 min-h-32 flex flex-col   rounded-[20px]">
+                    (organizationInfo: OrganizationsType, index: number) => <div key={index} className="relative  hover:bg-gray-100 min-h-32 flex flex-col   rounded-[20px]">
                         <div>
 
                             <div className="font-semibold text-center w-full">

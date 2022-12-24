@@ -33,11 +33,11 @@ const Filter = () => {
         )
     }, [])
 
-    const submitFilters = (ev:any) => {
-        ev.preventDefault()   
+    const submitFilters = (ev: any) => {
+        ev.preventDefault()
 
-        updateData(filterOptions)  
-       
+        updateData(filterOptions)
+
     }
 
     const clearFilters = () => {
@@ -46,48 +46,44 @@ const Filter = () => {
     }
 
     return (
-        <>
-            <div className="w-full flex justify-end">
-                <div className='bg-zinc-300 w-80 rounded fixed max-h-[90%] overflow-auto '>
-                    <div className='bg-zinc-300 w-80 rounded  flex justify-center p-5'>
+        <div className='bg-zinc-300 w-80 rounded fixed max-h-[90%] overflow-auto '>
+            <div className='bg-zinc-300 w-80 rounded  flex justify-center p-5'>
 
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
-                            onClick={submitFilters}>Submit</button>
-                        <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-                            onClick={clearFilters}>Clear</button>
-
-                    </div>
-                    <div className='flex justify-center flex-col p-5 gap-5 max-h-[90%]'>
-                        {
-
-                            selectsOption && Object.keys(selectsOption).map(
-                                (selectParam: any, indexSelect) => <div key={indexSelect} className='grid grid-cols-2 w-[70%] gap-5'>
-                                    <label>{filterFields[selectParam]}</label>
-                                    <Select
-                                        name={selectParam}
-                                        value={selectsOption[selectParam].filter(
-                                            (selectOpt: any) => selectOpt.value == filterOptions[selectParam]
-                                        )}
-                                        onChange={
-                                            (ev: any) => {
-                                                setFilterOptions(
-                                                    (oldFilterOpts: any) => ({
-                                                        ...oldFilterOpts,
-                                                        [selectParam]: ev.value
-                                                    })
-                                                )
-                                            }
-                                        } className="min-w-[150px]" options={selectsOption[selectParam]} />
-                                </div>
-                            )
-
-                        }
-                    </div>
-                </div>
-
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                    onClick={submitFilters}>Submit</button>
+                <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                    onClick={clearFilters}>Clear</button>
 
             </div>
-        </>
+            <div className='flex justify-center flex-col p-5 gap-5 max-h-[90%]'>
+                {
+
+                    selectsOption && Object.keys(selectsOption).map(
+                        (selectParam: any, indexSelect) => <div key={indexSelect} className='grid grid-cols-2 w-[70%] gap-5'>
+                            <label>{filterFields[selectParam]}</label>
+                            <Select
+                                name={selectParam}
+                                value={selectsOption[selectParam].filter(
+                                    (selectOpt: any) => selectOpt.value == filterOptions[selectParam]
+                                )}
+                                onChange={
+                                    (ev: any) => {
+                                        setFilterOptions(
+                                            (oldFilterOpts: any) => ({
+                                                ...oldFilterOpts,
+                                                [selectParam]: ev.value
+                                            })
+                                        )
+                                    }
+                                } className="min-w-[150px]" options={selectsOption[selectParam]} />
+                        </div>
+                    )
+
+                }
+            </div>
+        </div>
+
+
     );
 }
 

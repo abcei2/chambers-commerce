@@ -33,12 +33,13 @@ const ChartSection = () => {
 
     return (<div className='flex flex-col  overflow-auto  scrollbar'>
         <Carousel
+            className="rounded-[20px] "
             
             ssr responsive={responsive}
             >
                 {
                     Object.keys(chartsData).map(
-                        (chartParam, index) => <div key={index} className="px-5">
+                        (chartParam, index) => <div key={index} className=" ">
                             <MainChart  title={filterFields[chartParam]} data={chartsData[chartParam]} />
                         </div> 
                     )

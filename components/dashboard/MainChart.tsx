@@ -86,7 +86,7 @@ const MainChart = (
         }
     }
 
-    return <div className='bg-white rounded-[20px] pl-8 pr-2 pt-2 h-full min-w-[300px]'>
+    return <div className='bg-white  rounded-[20px] pl-8 pr-2 pt-2 h-[14rem] max-w-96 mx-5 overflow-hidden'>
         <div className='flex justify-between '>
             <div className=''>{title}  </div>
             {
@@ -99,7 +99,7 @@ const MainChart = (
                 </select>
             }
         </div>
-        <div className='w-[90%] h-[80%]'>
+        <div className='w-full flex justify-center w-[100%] h-[70%]'>
 
             {currentChart()}
         </div>
