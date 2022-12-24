@@ -11,8 +11,8 @@ const ChartSection = () => {
     if (!chartsData)
         return <></>
 
-    return (<div className='flex flex-col overflow-auto  '>
-        <div className='flex gap-5  h-auto min-w-[900px]'>
+    return (<div className='flex flex-col  overflow-auto  '>
+        <div className='my-5 flex gap-5 w-94 h-64 min-w-[900px]'>
             {
                 Object.keys(chartsData).map(
                     (chartParam, index) => <MainChart key={index} title={filterFields[chartParam]} data={chartsData[chartParam]} />
