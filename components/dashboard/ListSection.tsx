@@ -45,7 +45,7 @@ const ListSection = () => {
             
             {
                 organizationList && organizationList.map(
-                    (organizationInfo: OrganizationsType, index: number) => <div key={index} className="relative  hover:bg-gray-100 min-h-32 flex flex-col   rounded-[20px]">
+                    (organizationInfo: OrganizationsType, index: number) => <div key={index} className="px-5 relative  hover:bg-gray-100 min-h-32 flex flex-col   rounded-[20px]">
                         <div>
 
                             <div className="font-semibold text-center w-full">
