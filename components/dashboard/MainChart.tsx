@@ -86,7 +86,7 @@ const MainChart = (
         }
     }
 
-    return <div className='bg-white rounded-[20px] pl-8 pr-2 pt-2 h-full overflow-auto min-w-[300px]'>
+    return <div className='bg-white rounded-[20px] pl-8 pr-2 pt-2 h-full min-w-[300px]'>
         <div className='flex justify-between '>
             <div className=''>{title}  </div>
             {
