@@ -5,10 +5,11 @@ import React, { useState } from 'react';
 
 const MainChart = (
     props: {
-        data: any
+        data: any,
+        title:string
     }
 ) => {
-    const { data } = props
+    const { data, title } = props
     const chartTypes = ["doughnut", "radar", "pie","bar"]
     const [currentType, setCurrentType] = useState<string>()
     const onTypeChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
@@ -20,6 +21,7 @@ const MainChart = (
             plugins: {
             }
         };
+
         switch (currentType) {
             case "doughnut":
                 options = {
@@ -74,14 +76,22 @@ const MainChart = (
     }
 
     return <div className='border-2 border-black rounded'>
-        <select onChange={onTypeChange}>
-            {
-                chartTypes.map(
-                    (chartType, index) => <option key={index} value={chartType}>{chartType}</option>
-                )
+        <div className='flex justify-between px-5'>
+            <div>{title}  </div>
+           {
+                <select onChange={onTypeChange}>
+                    {
+                        chartTypes.map(
+                            (chartType, index) => <option key={index} value={chartType}>{chartType}</option>
+                        )
+                    }
+                </select>
             }
-        </select>
-        {currentChart()}
+        </div>
+        <div className='w-full h-full'>
+
+            {currentChart()}
+        </div>
     </div>
 }
 

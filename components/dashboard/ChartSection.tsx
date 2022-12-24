@@ -1,24 +1,13 @@
 import MainChart from "./MainChart";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { filterFields } from "../../constants";
+import { DashboardContext } from "../../context/DashboardContext";
 
 
 const ChartSection = () => {
-    const [chartsData, setChartsData] = useState<any>()
 
-    useEffect(
-        ()=>{
-            fetch(
-                "/api/db/organizations/chartsdata"
-            ).then(
-                (data)=>data.json()
-            ).then(
-                (chartsDataJson) =>setChartsData(chartsDataJson)
-            )
-
+    const {chartsData} = useContext(DashboardContext)
  
-        },[]
-    )
-
     if (!chartsData)
         return <></>
 
@@ -26,7 +15,7 @@ const ChartSection = () => {
         <div className='flex gap-5  h-auto min-w-[900px]'>
             {
                 Object.keys(chartsData).map(
-                    (chartParam, index) => <MainChart key={index} data={chartsData[chartParam]} />
+                    (chartParam, index) => <MainChart key={index} title={filterFields[chartParam]} data={chartsData[chartParam]} />
                 )
             }
         </div>
