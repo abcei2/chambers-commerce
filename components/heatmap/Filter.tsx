@@ -46,7 +46,7 @@ const Filter = () => {
     }
 
     return (
-        <div className='bg-zinc-300 w-80 rounded fixed max-h-[90%] overflow-auto '>
+        <div className='bg-zinc-300 w-80 rounded-[20px]  max-h-[90%] overflow-auto '>
             <div className='bg-zinc-300 w-80 rounded  flex justify-center p-5'>
 
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
