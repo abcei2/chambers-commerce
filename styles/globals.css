@@ -1,7 +1,16 @@
+:root {
+    --primary-color: red;
+    --secondary-color: white;
+    --text-size: 5rem;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+
+}
 
 @layer utilities {
     body {

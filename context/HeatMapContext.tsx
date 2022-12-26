@@ -21,7 +21,6 @@ const HeatMapContextProvider = (props: {
         ).then(
             (jsonData) => {
                 const locationDataArray = jsonData.data
-                console.log(locationDataArray)
                 setHeatMapData(
                     (oldHeatMapData: any) => {
                         return {

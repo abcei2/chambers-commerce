@@ -17,7 +17,7 @@ const DataSection = () => {
         <CustomCarousel >
             {
                 Object.keys(chartsData).map(
-                    (chartParam, index) => <div key={index} className="mt-2 ml-2 rounded-[20px] flex flex-col bg-white">
+                    (chartParam, index) => <div key={index} className="mt-2 ml-2 rounded-[20px] flex flex-col bg-[var(--secondary-color)]">
                         <div className='flex justify-between px-4 pt-1'>
                             <div className=''>titulo  </div>
                            
@@ -30,7 +30,7 @@ const DataSection = () => {
                                 25%
                             </div>
                         </div>
-                        <div className="text-center text-md text-white self-center font-bold bg-red-600 w-[80%] rounded-[20px] m-5">
+                        <div className="text-center text-md text-white self-center font-bold bg-[var(--primary-color)] w-[80%] rounded-[20px] m-5">
                             Información
                         </div>
                     </div>

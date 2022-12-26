@@ -38,7 +38,7 @@ const ListSection = () => {
         return value != "No data" ? value : null
     }
 
-    return <div className=" rounded-[20px] bg-white  w-[90%] ">
+    return <div className=" rounded-[20px] bg-[var(--secondary-color)]  w-[90%] ">
 
     
         <div className="grid grid-cols-1 overflow-auto scrollbar md:h-[700px] h-[500px] divide-y ">
@@ -71,7 +71,7 @@ const ListSection = () => {
                             </div>
 
                         </div>
-                        <div className="text-center text-md text-white self-center font-bold bg-red-600 w-[80%] rounded-[20px] m-5">
+                        <div className="text-center text-md text-white self-center font-bold bg-[var(--primary-color)] w-[80%] rounded-[20px] m-5">
                             Información
                         </div>
                     </div>

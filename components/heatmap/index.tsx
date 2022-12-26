@@ -3,7 +3,6 @@ import { Map, Source, Layer, NavigationControl } from 'react-map-gl';
 import type { MapRef } from 'react-map-gl';
 import type { GeoJSONSource } from 'react-map-gl';
 import type { LayerProps } from 'react-map-gl';
-import Filter from './Filter';
 import { HeatMapContext } from '../../context/HeatMapContext';
 import 'mapbox-gl/dist/mapbox-gl.css'
 

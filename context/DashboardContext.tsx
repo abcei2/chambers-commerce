@@ -1,16 +1,22 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 const DashboardContext = createContext<any>(null);
 
 
 
 const DashboardContextProvider = (props: {
-    children: React.ReactNode,
-    defaultChartsData:any
+    children: React.ReactNode
 }) => {
 
-    const [chartsData, setChartsData] = useState<any>(props.defaultChartsData)
+    const [chartsData, setChartsData] = useState<any>()
 
+    useEffect(
+        () => {
+            fetch("/api/db/organizations/chartsdata").then(
+                (resp) => resp.json()
+            ).then((jsonData) => setChartsData(jsonData))
+        }, []
+    )
     return (
         <DashboardContext.Provider value={{ chartsData, setChartsData }}>
             {props.children}

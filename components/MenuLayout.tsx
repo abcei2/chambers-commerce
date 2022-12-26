@@ -6,13 +6,12 @@ const MenuLayout = (props:{
 }) => {
     const [showNames, setShowNames] = useState(false)
     const router = useRouter()
-
     return <div className="">
-        <div className="bg-gray-300 h-20">
-            header
+        <div className="bg-gray-200 h-20 p-4 ">
+            <img src="/logo.png" className="h-16"/>
         </div>
-        <div className="p-1">
-            <div className="flex flex-col bg-white absolute rounded-[20px]  gap-2 justify-center p-2  z-10 ">
+        <div className="py-5 pl-2">
+            <div className="flex flex-col bg-[var(--secondary-color)] absolute rounded-[20px]  gap-2 justify-center p-2  z-10 ">
                 <div className="flex gap-5 mx-3 mt-1 " onClick={()=> setShowNames(!showNames)}>
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg> 
                     {showNames?"Menú":""}
@@ -27,7 +26,7 @@ const MenuLayout = (props:{
                     {showNames ? "Mapa de calor" : ""}
                 </div>
             </div>
-            <div className="">
+            <div className={router.pathname.includes("map")?"":"ml-5"}>
 
                 {props.children}
             </div>
