@@ -32,11 +32,7 @@ const ListSection = () => {
         if (page > 0) {
             setPage(page - 1)
         }
-    }
-
-    const nullIfDefault = (value: string) => {
-        return value != "No data" ? value : null
-    }
+    }  
 
     return <div className=" rounded-[20px] bg-[var(--secondary-color)]  w-[90%] ">
 

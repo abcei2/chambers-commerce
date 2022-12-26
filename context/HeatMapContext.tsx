@@ -1,19 +1,14 @@
 import { createContext, useState } from "react";
+import { HEATMAP_BASE_JSON } from "../constants/map";
 
 const HeatMapContext = createContext<any>(null);
 
-const HEATMAP_BASE_JSON: any = {
-    "type": "FeatureCollection",
-    "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-    "features": []
-}
 
 const HeatMapContextProvider = (props: {
     children: React.ReactNode
 }) => {
 
     const [heatMapData, setHeatMapData] = useState(HEATMAP_BASE_JSON)   
-
 
     const updateData = (filterOptions:any={})=>{
         fetch("/api/db/locations/filtering?" + new URLSearchParams(filterOptions)).then(
@@ -28,10 +23,13 @@ const HeatMapContextProvider = (props: {
                             features: [ ...locationDataArray.map(
                                 (locationData: any) => ({
                                     type: "Feature",
-                                    properties: {},
+                                    properties: {
+                                        color: "#11b4da"
+
+                                    },
                                     geometry: {
                                         type: "Point",
-                                        coordinates: [locationData.long || 0, locationData.lat || 0, 7.64]
+                                        coordinates: [locationData.long || 0, locationData.lat || 0, 0]
                                     }
                                 })
                             )]

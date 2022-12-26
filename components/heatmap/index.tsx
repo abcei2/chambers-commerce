@@ -13,7 +13,7 @@ const clusterLayer: LayerProps = {
     source: 'organizations',
     filter: ['has', 'point_count'],
     paint: {
-        'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 100, '#f1f075', 750, '#f28cb1'],
+        'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 10, '#f1f075', 20, '#f28cb1'],
         'circle-radius': ['step', ['get', 'point_count'], 20, 100, 30, 750, 40]
     }
 };
@@ -30,18 +30,19 @@ const clusterCountLayer: LayerProps = {
     }
 };
 
-const unclusteredPointLayer: LayerProps = {
+
+const unclusteredPointLayer = (sourceName:string): LayerProps => ({
     id: 'unclustered-point',
     type: 'circle',
-    source: 'organizations',
+    source: sourceName,
     filter: ['!', ['has', 'point_count']],
     paint: {
-        'circle-color': '#11b4da',
+        'circle-color': ['get', 'color'],
         'circle-radius': 4,
         'circle-stroke-width': 1,
         'circle-stroke-color': '#fff'
     }
-};
+});
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN; // Set your mapbox token here
 
@@ -113,7 +114,14 @@ const HeatMap = (props:{
             >
                 <Layer {...clusterLayer} />
                 <Layer {...clusterCountLayer} />
-                <Layer {...unclusteredPointLayer} />
+                
+            </Source>
+            <Source
+                id="organizations"
+                type="geojson"
+                data={heatMapData}
+            >
+                <Layer {...unclusteredPointLayer("organizations")} />
             </Source>
         </Map >
     );
