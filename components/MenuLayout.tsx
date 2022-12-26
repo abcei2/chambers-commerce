@@ -11,7 +11,7 @@ const MenuLayout = (props:{
         <div className="bg-gray-300 h-20">
             header
         </div>
-        <div className="">
+        <div className="p-1">
             <div className="flex flex-col bg-white absolute rounded-[20px]  gap-2 justify-center p-2  z-10 ">
                 <div className="flex gap-5 mx-3 mt-1 " onClick={()=> setShowNames(!showNames)}>
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg> 
@@ -27,7 +27,7 @@ const MenuLayout = (props:{
                     {showNames ? "Mapa de calor" : ""}
                 </div>
             </div>
-            <div>
+            <div className="">
 
                 {props.children}
             </div>

@@ -13,7 +13,8 @@ const Dashboard = () => {
 
             <HeatMapContextProvider>
                 <div className="w-full h-[40%] p-5 ">
-                    <HeatMap />
+                    <HeatMap>
+                    </HeatMap>
                 </div>
 
             </HeatMapContextProvider>

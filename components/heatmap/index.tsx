@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext } from 'react';
+import { useRef, useEffect, useContext, ReactNode } from 'react';
 import { Map, Source, Layer, NavigationControl } from 'react-map-gl';
 import type { MapRef } from 'react-map-gl';
 import type { GeoJSONSource } from 'react-map-gl';
@@ -47,7 +47,9 @@ const unclusteredPointLayer: LayerProps = {
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN; // Set your mapbox token here
 
 
-const HeatMap = () => {
+const HeatMap = (props:{
+    children:ReactNode
+}) => {
     const mapRef = useRef<MapRef>(null);
     const { updateData, heatMapData } = useContext(HeatMapContext)
 
@@ -100,8 +102,8 @@ const HeatMap = () => {
             }
             ref={mapRef}
         >
-
-            <NavigationControl position='top-left' />
+            {props.children}
+            <NavigationControl position='top-right' />
             <Source
                 id="organizations"
                 type="geojson"

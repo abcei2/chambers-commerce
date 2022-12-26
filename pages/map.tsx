@@ -4,19 +4,20 @@ import Filter from "../components/heatmap/Filter";
 import { HeatMapContextProvider } from "../context/HeatMapContext";
 
 export default function Map() {
-    return <div className="sm:p-10 gap-5 sm:grid sm:grid-cols-3 lg:grid-cols-4 w-full h-screen ">
+    return <div className="lg:p-5  w-full h-screen relative ">
 
         <HeatMapContextProvider>
-            <div className="lg:col-span-3 sm:col-span-2 w-full h-full sm:relative absolute">
-                <div className="w-full h-full ">
+          
+            <div className=" w-full h-full  ">
 
-                    <HeatMap />
-                </div>
+                <HeatMap>
+                    <div className="py-3 top-28 right-1 pointer-events-none absolute z-2">
+                        <Filter />
+                    </div>
+                </HeatMap>
             </div>
 
-            <div className=" sm:w-fit  sm:relative fixed ">
-                <Filter />
-            </div>
+        
 
         </HeatMapContextProvider>
     </div>
