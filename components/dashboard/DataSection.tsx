@@ -24,7 +24,7 @@ const DataSection = () => {
                         </div>
                         <div className="flex w-content h-[6rem] justify-center gap-2">
                             <div className="h-full w-[4rem] flex items-center ">
-                                <CircularProgressbar value={60} text={`${60}%`} />
+                                <CircularProgressbar value={60} text={""} />
                             </div>
                             <div className="h-full text-[4rem] text-center flex items-center justify-center">
                                 25%
