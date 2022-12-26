@@ -1,54 +1,29 @@
 import MainChart from "./MainChart";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { filterFields } from "../../constants";
 import { DashboardContext } from "../../context/DashboardContext";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import CustomCarousel from "../CustomCarousel";
 
 
 const ChartSection = () => {
 
-    const {chartsData} = useContext(DashboardContext)
-    const responsive = {
-        superLargeDesktop: {
-            // the naming can be any, depends on you.
-            breakpoint: { max: 4000, min: 3000 },
-            items: 5,
-        },
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 4
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1
-        }
-    };
+    const { chartsData } = useContext(DashboardContext)
+   
     if (!chartsData)
         return <></>
 
-    return (<div className='flex flex-col  overflow-auto  scrollbar'>
-        <Carousel
-            className="rounded-[20px] "
-            
-            ssr responsive={responsive}
-            >
-                {
-                    Object.keys(chartsData).map(
-                        (chartParam, index) => <div key={index} className=" ">
-                            <MainChart  title={filterFields[chartParam]} data={chartsData[chartParam]} />
-                        </div> 
-                    )
-                }
-               
-            </Carousel>
-          
+    return (
+        <CustomCarousel>
+            {
+                Object.keys(chartsData).map(
+                    (chartParam, index) => <div key={index} className="mt-2 ml-2 bg-white  rounded-[20px] pl-5 pr-2 pt-2 h-[16rem] max-w-96 overflow-hidden     ">
+                        <MainChart title={filterFields[chartParam]} data={chartsData[chartParam]} />
+                    </div>
+                )
+            }
 
-    </div>
+        </CustomCarousel>
     )
 }
 

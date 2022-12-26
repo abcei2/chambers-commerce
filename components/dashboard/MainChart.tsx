@@ -85,7 +85,7 @@ const MainChart = (
         }
     }
 
-    return <div className='bg-white  rounded-[20px] pl-8 pr-2 pt-2 h-[14rem] max-w-96 mx-5 overflow-hidden'>
+    return <div className=''>
         <div className='flex justify-between '>
             <div className=''>{title}  </div>
             {
@@ -98,9 +98,11 @@ const MainChart = (
                 </select>
             }
         </div>
-        <div className='w-full flex justify-center w-[100%] h-[70%]'>
+        <div className=' flex justify-center '>
+            <div className='w-[200px] h-[200px]'>
 
-            {currentChart()}
+                {currentChart()}
+            </div>
         </div>
         <div className=' flex gap-3 '>
             <input type={"checkbox"} onClick={(ev:any)=>setShowLegends(ev.target.checked)}></input>
