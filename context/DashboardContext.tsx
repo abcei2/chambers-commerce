@@ -12,11 +12,12 @@ const DashboardContextProvider = (props: {
 
     useEffect(
         () => {
-            fetch("/api/db/organizations/chartsdata").then(
+            fetch("/api/db/dashboard/chartsdata").then(
                 (resp) => resp.json()
             ).then((jsonData) => setChartsData(jsonData))
         }, []
     )
+
     return (
         <DashboardContext.Provider value={{ chartsData, setChartsData }}>
             {props.children}

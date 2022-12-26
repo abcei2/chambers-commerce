@@ -1,5 +1,5 @@
 export const chartFields = [
-    'category', 'kind', 'area', 'productiveSector', 'ri4',
+    'municipality','category', 'kind', 'area', 'productiveSector', 'ri4Type'
 ]
 export const organizationFields = [
     'organization', 'category', 'kind', 'address',

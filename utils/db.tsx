@@ -1,8 +1,17 @@
 
 import { chartFields } from '../constants'
 import { Prisma, PrismaClient } from '@prisma/client'
+import { LOCATIONS_DATA1_QUERY, LOCATIONS_DATA2_QUERY, LOCATIONS_DATA3_QUERY, LOCATIONS_DATA4_QUERY } from '../constants/db'
 
-
+const CHAT_FORMAT = {
+    labels: [],
+    datasets: [
+        {
+            label: '# de capacidades',
+            data: []
+        },
+    ],
+}
 const prisma = new PrismaClient()
 
 export const getAllChartsData = async () =>{
@@ -13,13 +22,49 @@ export const getAllChartsData = async () =>{
     return charsData
 }
 
+export const getAllDataPercents = async () =>{
+    const dataPercentages: any = [
+        await prisma.$queryRaw(LOCATIONS_DATA1_QUERY),
+        await prisma.$queryRaw(LOCATIONS_DATA2_QUERY),
+        await prisma.$queryRaw(LOCATIONS_DATA3_QUERY),
+        await prisma.$queryRaw(LOCATIONS_DATA4_QUERY),
+
+    ]   
+    return dataPercentages.map(
+        (dataItem:any) => ({
+            ...dataItem[0],
+            value: Math.ceil(dataItem[0].value)
+        })
+    )
+}
+
+const chart2 = async () => {
+    const charData: any = Object.assign({}, CHAT_FORMAT); 
+    const fieldName = "municipality"
+    const result = await prisma.$queryRaw(
+        Prisma.sql`select	count(*) counts,  o.municipality 
+        from Locations l
+        inner join Organizations o on o.locationId = l.id
+        where o.rdUnits <> 'No data'
+        group by o.locationId, o.municipality`
+    )
+    charData.labels = groupByMunicipality.map(
+        (item) => item[fieldName].toString()
+    )
+
+    charData.datasets[0].data = groupByMunicipality.map(
+        (item) => item._count[fieldName]
+    )
+    return charData
+}
+
 export const getChartData = async (fieldName: any) => {
 
     const charData: any = {
         labels: [],
         datasets: [
             {
-                label: '# de capacidades',
+                label: '% de capacidades',
                 data: []
             },
         ],
@@ -31,13 +76,14 @@ export const getChartData = async (fieldName: any) => {
             [fieldName]: true,
         }
     })
+    const totalCapacities = await prisma.organizations.count()
 
     charData.labels = groupBy.map(
         (item) => item[fieldName].toString()
     )
 
     charData.datasets[0].data = groupBy.map(
-        (item) => item._count[fieldName]
+        (item) => (100*item._count[fieldName] / totalCapacities).toFixed(1)
     )
 
     return charData
