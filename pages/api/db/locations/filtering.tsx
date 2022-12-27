@@ -10,13 +10,11 @@ export default async function handler(
 ) {
     const filterParams = req.query
     const results = (await prisma.locations.findMany({
-        select: {
+        include: {
             organizations: {
                 where: filterParams
             },
-            lat:true,
-            long:true
-        },
+        }
     })).filter(
         (result)=> result.organizations.length > 0
     )

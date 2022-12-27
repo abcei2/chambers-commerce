@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react"
 import { OrganizationsType } from "../../types/dbTypes"
+import { nullIfDefault } from "../../utils"
 
 const PAGE_SIZE = 4
 const ListSection = () => {
@@ -10,7 +11,6 @@ const ListSection = () => {
 
     useEffect(
         () => {
-            console.log("aaaaaaaaaaaa")
             fetch(
                 "/api/db/organizations/pagination?" + new URLSearchParams({
                     page: page.toString(),

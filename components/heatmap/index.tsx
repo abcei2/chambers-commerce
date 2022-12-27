@@ -1,10 +1,10 @@
-import { useRef, useEffect, useContext, ReactNode } from 'react';
-import { Map, Source, Layer, NavigationControl } from 'react-map-gl';
+import { useRef, useEffect, useContext, ReactNode, useState } from 'react';
+import { Map, Source, Layer, NavigationControl, Popup, PointLike } from 'react-map-gl';
 import type { MapRef } from 'react-map-gl';
-import type { GeoJSONSource } from 'react-map-gl';
 import type { LayerProps } from 'react-map-gl';
 import { HeatMapContext } from '../../context/HeatMapContext';
 import 'mapbox-gl/dist/mapbox-gl.css'
+import Profile from '../Profile';
 
 
 const clusterLayer: LayerProps = {
@@ -31,10 +31,10 @@ const clusterCountLayer: LayerProps = {
 };
 
 
-const unclusteredPointLayer = (sourceName:string): LayerProps => ({
+const unclusteredPointLayer:LayerProps ={
     id: 'unclustered-point',
     type: 'circle',
-    source: sourceName,
+    source: 'organizations',
     filter: ['!', ['has', 'point_count']],
     paint: {
         'circle-color': ['get', 'color'],
@@ -42,7 +42,7 @@ const unclusteredPointLayer = (sourceName:string): LayerProps => ({
         'circle-stroke-width': 1,
         'circle-stroke-color': '#fff'
     }
-});
+};
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN; // Set your mapbox token here
 
@@ -51,35 +51,63 @@ const HeatMap = (props:{
     children:ReactNode
 }) => {
     const mapRef = useRef<MapRef>(null);
+
     const { updateData, heatMapData } = useContext(HeatMapContext)
+    const [showPopup, setShowPopup ]= useState(false)
+    const [popUpCoordinates, setPopUpCoordinates] = useState({
+        showPopup:false,
+        latitude: 6.251029,
+        longitude: -75.580353,
+        info:null })
 
     useEffect(() => {
         updateData()
+       
     }, [])
 
+    useEffect(()=>{
+        if(showPopup){
+            setPopUpCoordinates({
+                ...popUpCoordinates,
+                showPopup,
+            })
+            setShowPopup(false)
+        }
+    },[showPopup])
+
     const onClick = (event: any) => {
-        if (!mapRef.current || !event.features)
-            return
-        const feature = event.features[0];
-
-        const mapboxSource = mapRef.current.getSource('organizations') as GeoJSONSource;
-
-        if (!feature)
+        if (!mapRef.current )
             return
 
-        const clusterId = feature.properties.cluster_id;
-
-        mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
-            if (err) {
-                return;
-            }
-
-            mapRef.current?.easeTo({
-                center: feature.geometry.coordinates,
-                zoom,
-                duration: 500
-            });
+        const bbox: PointLike | [PointLike, PointLike] = [
+            [event.point.x - 5, event.point.y - 5],
+            [event.point.x + 5, event.point.y + 5]
+        ];
+        // Find features intersecting the bounding box.
+        const selectedFeatures:any = mapRef.current.queryRenderedFeatures(bbox, {
+            layers: ['unclustered-point']
         });
+        if(selectedFeatures.length>0)
+        {
+            setShowPopup(true)
+            setPopUpCoordinates({
+                showPopup:false,
+                latitude: selectedFeatures[0].geometry.coordinates[1],
+                longitude: selectedFeatures[0].geometry.coordinates[0],
+                info: selectedFeatures[0].properties
+            })
+
+        }else{
+
+            setShowPopup(false)
+            setPopUpCoordinates({
+                ...popUpCoordinates,
+                showPopup: false,             
+            })
+        }
+
+        event.originalEvent.stopPropagation();
+        
     };
 
     if (heatMapData.features.lenght==0)
@@ -95,14 +123,25 @@ const HeatMap = (props:{
             mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
             mapboxAccessToken={MAPBOX_TOKEN}
             onClick={onClick}
-            style={
-                {
-                    borderRadius:"20px"
-                }
-            }
             ref={mapRef}
         >
             {props.children}
+
+            { 
+                popUpCoordinates.showPopup && <Popup  
+                    {...popUpCoordinates}
+
+                    anchor="bottom"
+                    className="mapboxgl-popup-content"
+                    onClose={() => setPopUpCoordinates(
+                        {
+                         ...popUpCoordinates,
+                         showPopup:false   
+                        }
+                    )}>
+                    <Profile {...popUpCoordinates }/>
+                </Popup>
+            }
             <NavigationControl position='top-right' />
             <Source
                 id="organizations"
@@ -114,15 +153,10 @@ const HeatMap = (props:{
             >
                 <Layer {...clusterLayer} />
                 <Layer {...clusterCountLayer} />
+                <Layer {...unclusteredPointLayer} />
                 
             </Source>
-            <Source
-                id="organizations"
-                type="geojson"
-                data={heatMapData}
-            >
-                <Layer {...unclusteredPointLayer("organizations")} />
-            </Source>
+            
         </Map >
     );
 }

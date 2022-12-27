@@ -17,6 +17,13 @@
         background-color: #ededf0;
     }
 
+    .mapboxgl-popup-content {
+        background: transparent!important;
+        box-shadow: 0 0px 0px rgb(0 0 0 / 10%)!important;
+        padding:0!important;
+        pointer-events: auto;
+        position: relative;
+    }
     .scrollbar::-webkit-scrollbar {
         width: 10px;
         height: 10px;

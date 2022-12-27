@@ -21,17 +21,20 @@ const HeatMapContextProvider = (props: {
                         return {
                             ...oldHeatMapData,
                             features: [ ...locationDataArray.map(
-                                (locationData: any) => ({
+                                (locationData: any) => {
+                                    console.log(locationData.organizations)
+                                    return {
                                     type: "Feature",
                                     properties: {
-                                        color: "#11b4da"
+                                        color: "#11b4da",
+                                        ...locationData
 
                                     },
                                     geometry: {
                                         type: "Point",
                                         coordinates: [locationData.long || 0, locationData.lat || 0, 0]
                                     }
-                                })
+                                }}
                             )]
                         }
                     }
