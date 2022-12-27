@@ -47,13 +47,13 @@ const Filter = () => {
     }
 
     return (
-        <div className="flex justify-end ">
+        <div className="flex justify-end">
 
             
             {
-                openMenu && <div className='w-80   max-h-[90%] pointer-events-none '>
+                openMenu && <div className='w-80   max-h-[90%] pointer-events-none   overflow-visible '>
 
-                    <div className='bg-[var(--secondary-color)] rounded-[20px] flex justify-center flex-col p-5 gap-5 max-h-[90%] overflow-auto pointer-events-auto'>
+                    <div className='bg-[var(--secondary-color)] rounded-[20px] flex justify-center flex-col p-5 gap-5 max-h-[90%] overflow-visible pointer-events-auto'>
                     {
 
                         selectsOption && Object.keys(selectsOption).map(

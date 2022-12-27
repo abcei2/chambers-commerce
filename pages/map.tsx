@@ -4,7 +4,7 @@ import Filter from "../components/heatmap/Filter";
 import { HeatMapContextProvider } from "../context/HeatMapContext";
 
 export default function Map() {
-    return <div className="lg:p-5  w-full h-screen relative ">
+    return <div className="lg:p-5  w-full h-screen relative  ">
 
         <HeatMapContextProvider>
           
