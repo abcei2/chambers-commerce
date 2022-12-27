@@ -4,7 +4,7 @@ import type { MapRef } from 'react-map-gl';
 import type { LayerProps } from 'react-map-gl';
 import { HeatMapContext } from '../../context/HeatMapContext';
 import 'mapbox-gl/dist/mapbox-gl.css'
-import Profile from '../Profile';
+import Profile from '../profile';
 
 
 const clusterLayer: LayerProps = {
