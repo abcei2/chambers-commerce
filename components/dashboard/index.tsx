@@ -1,4 +1,5 @@
 import { HeatMapContextProvider } from "../../context/HeatMapContext"
+import { ListFilterContextProvider } from "../../context/ListFilterContext"
 import HeatMap from "../heatmap"
 import ChartSection from "./ChartSection"
 import DataSection from "./DataSection"
@@ -19,7 +20,9 @@ const Dashboard = () => {
 
             </HeatMapContextProvider>
         </div>
-        <ListSection />
+        <ListFilterContextProvider>
+            <ListSection />
+        </ListFilterContextProvider>
 
     </div>
 }

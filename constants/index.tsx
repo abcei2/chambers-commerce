@@ -21,7 +21,7 @@ export const locationFields = [
     "phone",
 ]
 
-export const integerFields = ["ri4"]
+export const integerFields = ["ri4","locationId"]
 export const floatFields = ["lat", "long"]
 
 export const filterFields:any = {    

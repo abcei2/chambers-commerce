@@ -12,7 +12,7 @@ const ChartSection = () => {
     const { chartsData } = useContext(DashboardContext)
    
     if (!chartsData)
-        return <div className="flex justify-center">
+        return <div className="flex justify-center ">
             <Loader />
         </div> 
 

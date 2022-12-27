@@ -62,9 +62,9 @@ const MainChart = (
 
     return <div className=''>
         <div className='flex justify-between '>
-            <div className=''>{title}  </div>
+            <div className='font-extrabold '>{title}  </div>
             {
-                <select className='rounded hover:rounded-none' onChange={onTypeChange}>
+                <select className='rounded hover:rounded-none ' onChange={onTypeChange}>
                     {
                         chartTypes.map(
                             (chartType, index) => <option key={index} className='' value={chartType}>{chartType}</option>

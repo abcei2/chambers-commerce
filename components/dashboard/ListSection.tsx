@@ -1,28 +1,17 @@
 
-import { useEffect, useState } from "react"
+import { useRouter } from "next/router"
+import { useContext, useEffect, useState } from "react"
+import { ListFilterContext } from "../../context/ListFilterContext"
 import { OrganizationsType } from "../../types/dbTypes"
 import { nullIfDefault } from "../../utils"
+import Filter from "../heatmap/Filter"
 
-const PAGE_SIZE = 4
-const ListSection = () => {
+const ListSection = (props: { locationId?:any}) => {
 
-    const [organizationList, setOrganizationList] = useState<any>()
-    const [page, setPage] = useState(0)
+    const router = useRouter()
+    const { page, setPage, listFilterData, PAGE_SIZE } = useContext(ListFilterContext)
 
-    useEffect(
-        () => {
-            fetch(
-                "/api/db/organizations/pagination?" + new URLSearchParams({
-                    page: page.toString(),
-                    size: PAGE_SIZE.toString(),
-                })
-            ).then(
-                (data) => data.json()
-            ).then(
-                (chartsDataJson) => setOrganizationList(chartsDataJson.data)
-            )
-        }, [page]
-    )
+  
     const onNextPage = () => {
         setPage(page + 1)
 
@@ -34,13 +23,13 @@ const ListSection = () => {
         }
     }  
 
-    return <div className=" rounded-[20px] bg-[var(--secondary-color)]  w-[90%] ">
+    return <div className=" rounded-[20px] bg-[var(--secondary-color)]  ">
 
-    
+        <Filter context={ListFilterContext} />
         <div className="grid grid-cols-1 overflow-auto scrollbar md:h-[700px] h-[500px] divide-y ">
             
             {
-                organizationList && organizationList.map(
+                listFilterData && listFilterData.map(
                     (organizationInfo: OrganizationsType, index: number) => <div key={index} className=" px-5  relative  hover:bg-gray-100 min-h-32 flex flex-col   rounded-[20px]">
                         <div>
 
@@ -67,9 +56,13 @@ const ListSection = () => {
                             </div>
 
                         </div>
-                        <div className="text-center text-md text-white self-center font-bold bg-[var(--primary-color)] w-[80%] rounded-[20px] m-5">
+                        <button onClick={() => router.push({
+                            pathname: '/info',
+                            query: { locationId: organizationInfo.locationId },
+                        })}
+                            className="text-center text-md text-white self-center font-semibold bg-[var(--primary-color)] w-[80%] rounded-[20px] m-5">
                             Información
-                        </div>
+                        </button>
                     </div>
                 )
             }

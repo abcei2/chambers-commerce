@@ -2,16 +2,24 @@
 import { PrismaClient } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-const prisma = new PrismaClient()
+import { prisma } from '../../../../db'
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
-    const page: any = req.query.page
-    const size: any = req.query.size
-    
+
+    const noTypeData: any = req.query
+
+    const { page, size, locationId, ...filterParams } = noTypeData
+
+    const where = parseInt(locationId)?{
+        ...filterParams,
+        locationId: parseInt(locationId)
+    } : filterParams
+
     const results = await prisma.organizations.findMany({
+        where,
         skip: parseInt(page) * parseInt(size),
         take: parseInt(size),
     })

@@ -27,7 +27,7 @@ const DataSection = () => {
         <CustomCarousel >
             {
                 percentData.map(
-                    (percentItem: { name: string, value: number, title: string }, index) => <div key={index} className="mt-2 ml-2 rounded-[20px] flex flex-col bg-[var(--secondary-color)]">
+                    (percentItem: { name: string, value: number, title: string }, index) => <div key={index} className="mt-2 ml-2 rounded-[20px] font-black flex flex-col bg-[var(--secondary-color)]">
                        
                         <div className="flex w-content h-[6rem] justify-center gap-2">
                             <div className="h-full w-[4rem] flex items-center ">
@@ -37,7 +37,7 @@ const DataSection = () => {
                                 {percentItem.value}%
                             </div>
                         </div>
-                        <div className="text-center text-md text-white self-center font-bold bg-[var(--primary-color)] w-[80%] rounded-[20px] m-5">
+                        <div className="text-center text-md text-white self-center font-semibold bg-[var(--primary-color)] w-[80%] rounded-[20px] m-5">
                             {percentItem.name}
                         </div>
                     </div>

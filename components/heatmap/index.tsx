@@ -4,7 +4,7 @@ import type { MapRef } from 'react-map-gl';
 import type { LayerProps } from 'react-map-gl';
 import { HeatMapContext } from '../../context/HeatMapContext';
 import 'mapbox-gl/dist/mapbox-gl.css'
-import Profile from '../profile';
+import Profile from '../information/Profile';
 
 
 const clusterLayer: LayerProps = {
@@ -52,18 +52,13 @@ const HeatMap = (props:{
 }) => {
     const mapRef = useRef<MapRef>(null);
 
-    const { updateData, heatMapData } = useContext(HeatMapContext)
+    const { heatMapData } = useContext(HeatMapContext)
     const [showPopup, setShowPopup ]= useState(false)
     const [popUpCoordinates, setPopUpCoordinates] = useState({
         showPopup:false,
         latitude: 6.251029,
         longitude: -75.580353,
-        info:null })
-
-    useEffect(() => {
-        updateData()
-       
-    }, [])
+        info:null }) 
 
     useEffect(()=>{
         if(showPopup){

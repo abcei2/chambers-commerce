@@ -1,10 +1,7 @@
 
 import { chartFields } from '../constants'
-import { Prisma, PrismaClient } from '@prisma/client'
 import { LOCATIONS_DATA1_QUERY, LOCATIONS_DATA2_QUERY, LOCATIONS_DATA3_QUERY, LOCATIONS_DATA4_QUERY } from '../constants/db'
-
-
-const prisma = new PrismaClient()
+import { prisma } from '../db'
 
 export const getAllChartsData = async () =>{
     const charsData: any = {}

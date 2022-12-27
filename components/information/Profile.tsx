@@ -2,7 +2,7 @@ const Profile = (props: { info: any }) => {
     const { info } = props
     return <div className="bg-white w-full p-5 rounded-xl flex flex-col gap-2 text-xs overflow-hidden ">
         <div className="text-sm font-semibold">
-            Organización
+            Entidad
         </div>
         <div className="text-sm text-center my-5">
             {info.organization}
@@ -26,7 +26,7 @@ const Profile = (props: { info: any }) => {
         </div>
         <div className="flex gap-4 font-semibold items-center">
             <div>
-                <svg className="text-[var(--primary-color)] w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <svg className="text-[var(--primary-color)] w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             </div>
 
             <div>{info.address}</div>
