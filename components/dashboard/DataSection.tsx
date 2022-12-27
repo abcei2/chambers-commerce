@@ -1,12 +1,10 @@
 
-import { useContext, useEffect, useState } from "react";
-import { DashboardContext } from "../../context/DashboardContext";
+import { useEffect, useState } from "react";
 import "react-multi-carousel/lib/styles.css";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import CustomCarousel from "../CustomCarousel";
-import { filterFields } from "../../constants";
-import { stringify } from "querystring";
+import Loader from "../Loader";
 
 const DataSection = () => {
 
@@ -22,7 +20,9 @@ const DataSection = () => {
 
 
     if (!percentData)
-        return <></>
+        return <div className="flex justify-center">
+            <Loader />
+        </div> 
     return (
         <CustomCarousel >
             {

@@ -10,6 +10,9 @@
 
 @layer components {
 
+    .layout-menu-item {
+        @apply hover:bg-gray-300 flex gap-5 p-3
+    }
 }
 
 @layer utilities {
