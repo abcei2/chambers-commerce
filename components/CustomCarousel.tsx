@@ -12,7 +12,7 @@ const CustomCarousel = (props:{
         superLargeDesktop: {
             // the naming can be any, depends on you.
             breakpoint: { max: 4000, min: 1550 },
-            items: 4,
+            items: 3,
         },
         desktop: {
             breakpoint: { max: 1550, min: 1200 },

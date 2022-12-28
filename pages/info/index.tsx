@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LocationInfo from "../../components/information";
-import { InformationContextProvider } from "../../context/InformationContext";
+import { HeatMapContextProvider } from "../../context/HeatMapContext";
 
 export default function Info() {
     const route = useRouter()
@@ -14,10 +14,10 @@ export default function Info() {
         }, [route.query.locationId]
     )
 
-    return  locationId?<div className = "lg:px-5  w-full h-full relative  ">
-        <InformationContextProvider locationId={locationId}>
+    return locationId ? <div className="lg:px-5  w-full h-full relative  ">
+        <HeatMapContextProvider locationId={locationId}>
             < LocationInfo  />
-        </InformationContextProvider>
+        </HeatMapContextProvider>
     </div >: <></>
 }
 
