@@ -26,12 +26,12 @@ const ListSection = (props: { locationId?: any }) => {
     return <div className=" rounded-[20px] bg-[var(--secondary-color)]  ">
         <Filter className="flex flex-row-reverse " useModal />
 
-        <div className="grid grid-cols-1 overflow-auto scrollbar md:h-[700px] h-[500px] divide-y ">
+        <div className=" overflow-auto scrollbar md:h-[700px] h-[500px] divide-y ">
 
             {
                 capacitiesList && capacitiesList.map(
-                    (organizationInfo: OrganizationsType, index: number) => <div key={index} className=" px-5  relative  hover:bg-gray-100 min-h-32 flex flex-col   rounded-[20px]">
-                        <div>
+                    (organizationInfo: OrganizationsType, index: number) => <div key={index} className=" px-5  relative  min-h-32 flex flex-col   rounded-[20px]">
+                        <div className="">
 
                             <div className="font-semibold text-center w-full mt-4">
 
@@ -60,7 +60,7 @@ const ListSection = (props: { locationId?: any }) => {
                             pathname: '/info',
                             query: { locationId: organizationInfo.locationId },
                         })}
-                            className="text-center text-md text-white self-center font-semibold bg-[var(--primary-color)] w-[80%] rounded-[20px] m-5">
+                            className="text-center text-md hover:bg-red-700 text-white self-center font-semibold bg-[var(--primary-color)] w-[80%] rounded-[20px] m-5">
                             Información
                         </button>
                     </div>
