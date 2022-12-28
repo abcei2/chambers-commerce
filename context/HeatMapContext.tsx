@@ -1,35 +1,48 @@
 import { createContext, useEffect, useState } from "react";
-import { filterFields } from "../constants";
-import { HEATMAP_BASE_JSON } from "../constants/map";
+import { filterFields, filterFieldsNoLocationsInfo } from "../constants";
+import { CIRCLE_COLORS, HEATMAP_BASE_JSON } from "../constants/map";
+import useComponentVisible from "../hooks/useComponentVisible";
 
 const HeatMapContext = createContext<any>(null);
-const CIRCLE_COLORS:any  = {
-    'Institución Tecnológica': "#11b4da",
-    'Unidades I+D': "#6fdc7f",
-    'Centros de Innovación': "#c8dc6f",
-    'Institución Universitaria/Escuela Tecnológica': "#dcb26f",
-    'Universidad': "#dc6f6f" ,
-    'Centros de Ciencia': "#c46fdc" ,
-    'Centros de Investigación': "#47a4c9" ,
-}
+
 
 const PAGE_SIZE = 4
 const HeatMapContextProvider = (props: {
-    children: React.ReactNode
+    children: React.ReactNode,
+    locationId?: any
 }) => {
 
+    const { ref: filterDiv, isComponentVisible: isFilterDivVisible, setIsComponentVisible: setIsFilterDivVisible } = useComponentVisible(true);
     const [selectsOption, setSelectOption] = useState<any>()
     const [filterOptions, setFilterOptions] = useState<any>({})
 
 
-    const [heatMapData, setHeatMapData] = useState(HEATMAP_BASE_JSON)   
+    const [heatMapData, setHeatMapData] = useState(HEATMAP_BASE_JSON)
+    const [showPopup, setShowPopup] = useState(false)
+    const [popUpCoordinates, setPopUpCoordinates] = useState({
+        showPopup: false,
+        latitude: 6.251029,
+        longitude: -75.580353,
+        info: null
+    })
 
     const [capacitiesList, setCapacitiesList] = useState()
     const [page, setPage] = useState(0)
 
     useEffect(() => {
+        if (showPopup) {
+            setPopUpCoordinates((oldCoordinates) => ({
+                ...oldCoordinates,
+                showPopup,
+            }))
+
+            setShowPopup(false)
+        }
+    }, [showPopup])
+
+    useEffect(() => {
         //LOAD FILTER OPTIONS
-        Object.keys(filterFields).forEach(
+        Object.keys(props.locationId?filterFieldsNoLocationsInfo:filterFields).forEach(
             (filterKey: any) => {
                 fetch("/api/db/organizations/distincts?" + new URLSearchParams({
                     field: filterKey,
@@ -50,9 +63,11 @@ const HeatMapContextProvider = (props: {
             }
         )
         //UPDATE HEATMAPDATA
+
         updateHeapmapData()
         updateCapacitiesList()
     }, [])
+
     useEffect(
         () => {
             updateCapacitiesList(filterOptions)
@@ -60,30 +75,45 @@ const HeatMapContextProvider = (props: {
     )
 
 
-    const updateHeapmapData = (filterOptions:any={})=>{
-        fetch("/api/db/locations/filtering?" + new URLSearchParams(filterOptions)).then(
+    const updateHeapmapData = (filterOptions: any = {}) => {
+        fetch("/api/db/locations/filtering?" + new URLSearchParams({
+            ...filterOptions,
+            ...({ locationId: props.locationId } || {})
+        })).then(
             response => response.json()
         ).then(
             (jsonData) => {
                 const locationDataArray = jsonData.data
+                if (locationDataArray.length == 1){
+                    setPopUpCoordinates(
+                        {
+                            showPopup: false,
+                            latitude: locationDataArray[0].lat,
+                            longitude: locationDataArray[0].long,
+                            info: locationDataArray[0]
+                        }
+                    )
+                    setShowPopup(true)
+                }
                 setHeatMapData(
                     (oldHeatMapData: any) => {
                         return {
                             ...oldHeatMapData,
-                            features: [ ...locationDataArray.map(
+                            features: [...locationDataArray.map(
                                 (locationData: any) => {
                                     return {
-                                    type: "Feature",
-                                    properties: {
-                                        color: CIRCLE_COLORS[locationData.category],
-                                        ...locationData
+                                        type: "Feature",
+                                        properties: {
+                                            color: CIRCLE_COLORS[locationData.category],
+                                            ...locationData
 
-                                    },
-                                    geometry: {
-                                        type: "Point",
-                                        coordinates: [locationData.long || 0, locationData.lat || 0, 0]
+                                        },
+                                        geometry: {
+                                            type: "Point",
+                                            coordinates: [locationData.long || 0, locationData.lat || 0, 0]
+                                        }
                                     }
-                                }}
+                                }
                             )]
                         }
                     }
@@ -97,6 +127,7 @@ const HeatMapContextProvider = (props: {
             "/api/db/organizations/pagination?" + new URLSearchParams({
                 page: page.toString(),
                 size: PAGE_SIZE.toString(),
+                ...({ locationId: props.locationId } || {}),
                 ...filterOptions
             })
         ).then(
@@ -108,16 +139,21 @@ const HeatMapContextProvider = (props: {
 
     const updateData = (filterOptions: any = {}) => {
         updateCapacitiesList(filterOptions)
-        updateHeapmapData(filterOptions)
+        if(!props.locationId)
+            updateHeapmapData(filterOptions)
     }
 
     return (
-        <HeatMapContext.Provider value={{ heatMapData, updateHeapmapData,
-            capacitiesList, updateCapacitiesList, 
+        <HeatMapContext.Provider value={{
+            heatMapData, updateHeapmapData,
+            popUpCoordinates, setPopUpCoordinates, 
+            setShowPopup, showPopup,
+            capacitiesList, updateCapacitiesList,
             updateData,
-            selectsOption, setSelectOption, 
-            filterOptions, setFilterOptions, 
-            page, setPage, PAGE_SIZE 
+            selectsOption, setSelectOption,
+            filterOptions, setFilterOptions,
+            page, setPage, PAGE_SIZE,
+            filterDiv, isFilterDivVisible, setIsFilterDivVisible
         }}>
             {props.children}
         </HeatMapContext.Provider>

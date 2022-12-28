@@ -1,10 +1,12 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LocationInfo from "../../components/information";
+import { InformationContextProvider } from "../../context/InformationContext";
 
 export default function Info() {
     const route = useRouter()
     const [locationId, setLocationId] = useState()
+    
     useEffect(
         () => {
             const locId:any = route.query.locationId
@@ -13,7 +15,9 @@ export default function Info() {
     )
 
     return  locationId?<div className = "lg:p-5  w-full h-screen relative  ">
-        < LocationInfo locationId = { locationId } />
+        <InformationContextProvider locationId={locationId}>
+            < LocationInfo  />
+        </InformationContextProvider>
     </div >: <></>
 }
 

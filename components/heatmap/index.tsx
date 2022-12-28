@@ -31,7 +31,7 @@ const clusterCountLayer: LayerProps = {
 };
 
 
-const unclusteredPointLayer:LayerProps ={
+export const unclusteredPointLayer:LayerProps ={
     id: 'unclustered-point',
     type: 'circle',
     source: 'organizations',
@@ -44,7 +44,7 @@ const unclusteredPointLayer:LayerProps ={
     },
 };
 
-const unclusteredPointTextLayer:LayerProps={
+export const unclusteredPointTextLayer:LayerProps={
     id: 'unclustered-labels',
     type: 'symbol',
     source: 'organizations',
@@ -68,24 +68,14 @@ const HeatMap = (props:{
 }) => {
     const mapRef = useRef<MapRef>(null);
 
-    const { heatMapData } = useContext(HeatMapContext)
-    const [showPopup, setShowPopup ]= useState(false)
-    const [popUpCoordinates, setPopUpCoordinates] = useState({
-        showPopup:false,
-        latitude: 6.251029,
-        longitude: -75.580353,
-        info:null }) 
+    const { showPopup, heatMapData, popUpCoordinates, setPopUpCoordinates, setShowPopup } = useContext(HeatMapContext)
 
-    useEffect(()=>{
-        if(showPopup){
-            setPopUpCoordinates({
-                ...popUpCoordinates,
-                showPopup,
-            })
-            setShowPopup(false)
+    useEffect(() => {
+        if (showPopup) {
+
+            mapRef.current?.flyTo({ center: [popUpCoordinates.longitude, popUpCoordinates.latitude], duration: 2000 });
         }
-    },[showPopup])
-
+    }, [showPopup])
     const onClick = (event: any) => {
         if (!mapRef.current )
             return
@@ -121,7 +111,7 @@ const HeatMap = (props:{
         
     };
 
-    if (heatMapData.features.lenght==0)
+    if (heatMapData.features.length==0)
         return <></>
 
     return (
@@ -135,6 +125,7 @@ const HeatMap = (props:{
             mapboxAccessToken={MAPBOX_TOKEN}
             onClick={onClick}
             ref={mapRef}
+            style={{borderRadius:"20px"}}
         >
             {props.children}
 
@@ -158,12 +149,12 @@ const HeatMap = (props:{
                 id="organizations"
                 type="geojson"
                 data={heatMapData}
-                cluster={true}
+                cluster={heatMapData.features.length > 1}
                 clusterMaxZoom={14}
                 clusterRadius={50}
             >
-                <Layer {...clusterLayer} />
-                <Layer {...clusterCountLayer} />
+                {heatMapData.features.length>1 && <Layer {...clusterLayer} />}
+                {heatMapData.features.length >1 && <Layer {...clusterCountLayer} />}
                 <Layer {...unclusteredPointLayer} />
                 <Layer {...unclusteredPointTextLayer} />
                 

@@ -8,11 +8,18 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
-    const filterParams = req.query
+    const noTypeData:any = req.query
+    const { page, size, locationId, ...filterParams } = noTypeData
+
+    const where = parseInt(locationId) ? {
+        ...filterParams,
+        locationId: parseInt(locationId)
+    } : filterParams
+
     const results = (await prisma.locations.findMany({
         include: {
             organizations: {
-                where: filterParams
+                where
             },
         }
     })).filter(

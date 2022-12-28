@@ -32,3 +32,9 @@ export const filterFields:any = {
     municipality:"Municipio",
     ri4Type: "Tipo de 4RI",
 }
+
+export const filterFieldsNoLocationsInfo: any = {
+    area: "Area",
+    productiveSector: "Sector Productivo",
+    ri4Type: "Tipo de 4RI",
+}
