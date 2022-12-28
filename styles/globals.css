@@ -1,6 +1,7 @@
 :root {
     --primary-color: red;
     --secondary-color: white;
+    --base-color: #ededf0;
     --text-size: 5rem;
 }
 
@@ -41,7 +42,7 @@
 
 @layer utilities {
     body {
-        background-color: #ededf0;
+        background-color: var(--base-color);
         font-family: Montserrat;
         color: #5f616e;
     }

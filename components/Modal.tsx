@@ -3,10 +3,11 @@ import { HeatMapContext } from "../context/HeatMapContext";
 import useComponentVisible from "../hooks/useComponentVisible";
 
 type ModalTypes = {
-    title: string;
+    title?: string;
     children: React.ReactNode;
     showModal:boolean;
     setShowModal:any;
+    fullscreen?:boolean;
 }
 
 const Modal=(props:ModalTypes) => {
@@ -33,19 +34,20 @@ const Modal=(props:ModalTypes) => {
                     <div
                         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed  inset-0 z-[1001] outline-none focus:outline-none"
                     >
-                        <div className="relative w-fit my-6 mx-auto " ref={ref}>
+                        <div className={"relative my-6 mx-auto " + (props.fullscreen ? "w-[80%]" :"w-fit" )} ref={ref}>
                             {/*content*/}
-                            <div className="border-0 rounded-lg shadow-lg relative  flex flex-col bg-white outline-none focus:outline-none">
+                            <div className="h-full w-full border-0 rounded-lg shadow-lg relative  flex flex-col bg-white outline-none focus:outline-none">
                                 {/*header*/}
-                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                
+                                <div style={{ display: title ? "" :"none"}} className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t items-center">
                                     <h3 className="text-xl font-semibold">
                                         {title}
                                     </h3>
                                     <button
-                                        className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                        className="p-1 ml-auto bg-transparent border-0 text-black opacity-50 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                         onClick={() => setShowModal(false)}
                                     >
-                                        <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                        <span className="bg-transparent text-black opacity-50 h-6 w-6 text-2xl block outline-none focus:outline-none">
                                             ×
                                         </span>
                                     </button>
