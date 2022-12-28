@@ -12,7 +12,7 @@ const HeatMapContextProvider = (props: {
     locationId?: any
 }) => {
 
-    const { ref: filterDiv, isComponentVisible: isFilterDivVisible, setIsComponentVisible: setIsFilterDivVisible } = useComponentVisible(true);
+    const { ref: filterDiv, isComponentVisible: isFilterDivVisible, setIsComponentVisible: setIsFilterDivVisible } = useComponentVisible(false);
     const [selectsOption, setSelectOption] = useState<any>()
     const [filterOptions, setFilterOptions] = useState<any>({})
 
@@ -74,7 +74,18 @@ const HeatMapContextProvider = (props: {
         }, [page]
     )
 
-
+    const clearPopup = () =>{
+        setShowPopup(false)
+        setPopUpCoordinates(
+            (oldData: any) => (
+                {
+                    ...oldData,
+                    showPopup: false
+                }
+            )
+        )
+    }
+    
     const updateHeapmapData = (filterOptions: any = {}) => {
         fetch("/api/db/locations/filtering?" + new URLSearchParams({
             ...filterOptions,
@@ -147,7 +158,7 @@ const HeatMapContextProvider = (props: {
         <HeatMapContext.Provider value={{
             heatMapData, updateHeapmapData,
             popUpCoordinates, setPopUpCoordinates, 
-            setShowPopup, showPopup,
+            setShowPopup, showPopup, clearPopup,
             capacitiesList, updateCapacitiesList,
             updateData,
             selectsOption, setSelectOption,
