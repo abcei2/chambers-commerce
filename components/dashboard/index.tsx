@@ -11,7 +11,7 @@ const Dashboard = () => {
         <HeatMapContextProvider>
 
         
-            <div className=" md:grid flex flex-col md:grid-cols-4 p-10 gap-5 ">
+            <div className=" md:grid flex flex-col md:grid-cols-4 px-10 py-2 gap-5 ">
                 <div className="flex flex-col md:col-span-3">
                     <DataSection />
                     <ChartSection />

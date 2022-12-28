@@ -22,7 +22,7 @@ const LocationInfo = () => {
                 <HeatMap>                    
                 </HeatMap>
             </div>
-            <div className="bg-white w-fit rounded-[20px]">
+            <div className="bg-white   min-w-fit w-96 rounded-[20px]">
                 <div className="text-center w-full text-lg mt-5">Capacidades de la entidad</div>
                     <ListSection />
             

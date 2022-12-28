@@ -17,13 +17,22 @@ export default async function handler(
         ...filterParams,
         locationId: parseInt(locationId)
     } : filterParams
+    const results = await prisma.$transaction([
+        prisma.organizations.aggregate({
+            _count: {
+                id: true,
+            },
+            where
+        }),
+        prisma.organizations.findMany({
+            where,
+            skip: parseInt(page) * parseInt(size),
+            take: parseInt(size),
+        })
+    ])
 
-    const results = await prisma.organizations.findMany({
-        where,
-        skip: parseInt(page) * parseInt(size),
-        take: parseInt(size),
-    })
+    console.log(results)
     
-    res.status(200).json({ data: results })
+    res.status(200).json({ data: results[1], pageAmount: Math.ceil(results[0]._count.id /parseInt(size))})
 }
 

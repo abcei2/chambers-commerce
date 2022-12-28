@@ -16,7 +16,6 @@ const HeatMapContextProvider = (props: {
     const [selectsOption, setSelectOption] = useState<any>()
     const [filterOptions, setFilterOptions] = useState<any>({})
 
-
     const [heatMapData, setHeatMapData] = useState(HEATMAP_BASE_JSON)
     const [showPopup, setShowPopup] = useState(false)
     const [popUpCoordinates, setPopUpCoordinates] = useState({
@@ -27,6 +26,7 @@ const HeatMapContextProvider = (props: {
     })
 
     const [capacitiesList, setCapacitiesList] = useState()
+    const [pageAmount, setPageAmount] = useState(0)
     const [page, setPage] = useState(0)
 
     useEffect(() => {
@@ -35,7 +35,6 @@ const HeatMapContextProvider = (props: {
                 ...oldCoordinates,
                 showPopup,
             }))
-
             setShowPopup(false)
         }
     }, [showPopup])
@@ -144,7 +143,10 @@ const HeatMapContextProvider = (props: {
         ).then(
             (data) => data.json()
         ).then(
-            (chartsDataJson) => setCapacitiesList(chartsDataJson.data)
+            (chartsDataJson) => {
+                setCapacitiesList(chartsDataJson.data)
+                setPageAmount(chartsDataJson.pageAmount)
+            }
         )
     }
 
@@ -159,11 +161,13 @@ const HeatMapContextProvider = (props: {
             heatMapData, updateHeapmapData,
             popUpCoordinates, setPopUpCoordinates, 
             setShowPopup, showPopup, clearPopup,
-            capacitiesList, updateCapacitiesList,
+
+            capacitiesList, updateCapacitiesList, pageAmount,
+            page, setPage, PAGE_SIZE,
+
             updateData,
             selectsOption, setSelectOption,
             filterOptions, setFilterOptions,
-            page, setPage, PAGE_SIZE,
             filterDiv, isFilterDivVisible, setIsFilterDivVisible
         }}>
             {props.children}
