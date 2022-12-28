@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { HeatMapContext } from "../context/HeatMapContext";
+import useComponentVisible from "../hooks/useComponentVisible";
 
 type ModalTypes = {
     title: string;
@@ -11,7 +12,18 @@ type ModalTypes = {
 const Modal=(props:ModalTypes) => {
 
     const { children, title, showModal, setShowModal } = props    
-    const { filterDiv } = useContext(HeatMapContext)
+    const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(true);
+
+    useEffect(
+        ()=>{
+            if (!isComponentVisible) {
+                setShowModal(false)
+                setIsComponentVisible(true)
+            }
+        }, [isComponentVisible]
+    )
+
+
 
     return (
         <>
@@ -21,7 +33,7 @@ const Modal=(props:ModalTypes) => {
                     <div
                         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed  inset-0 z-[1001] outline-none focus:outline-none"
                     >
-                        <div className="relative w-fit my-6 mx-auto " ref={filterDiv}>
+                        <div className="relative w-fit my-6 mx-auto " ref={ref}>
                             {/*content*/}
                             <div className="border-0 rounded-lg shadow-lg relative  flex flex-col bg-white outline-none focus:outline-none">
                                 {/*header*/}
