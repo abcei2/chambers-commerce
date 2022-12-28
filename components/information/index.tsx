@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
-import { HeatMapContext, HeatMapContextProvider } from "../../context/HeatMapContext"
-import { ListFilterContextProvider } from "../../context/ListFilterContext"
+import { HeatMapContextProvider } from "../../context/HeatMapContext"
 import ListSection from "../dashboard/ListSection"
 import Loader from "../Loader"
 import Profile from "./Profile"
