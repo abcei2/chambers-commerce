@@ -71,11 +71,11 @@ const HeatMap = (props:{
     const { showPopup, heatMapData, popUpCoordinates, setPopUpCoordinates, setShowPopup } = useContext(HeatMapContext)
 
     useEffect(() => {
-        if (showPopup) {
-
-            mapRef.current?.flyTo({ center: [popUpCoordinates.longitude, popUpCoordinates.latitude], duration: 2000 });
-        }
-    }, [showPopup])
+        if (mapRef.current && showPopup)           
+            mapRef.current.flyTo({ center: [popUpCoordinates.longitude, popUpCoordinates.latitude], duration: 2000 });
+        
+    }, [popUpCoordinates, showPopup])
+    
     const onClick = (event: any) => {
         if (!mapRef.current )
             return
@@ -116,7 +116,11 @@ const HeatMap = (props:{
 
     return (
         <Map
-            initialViewState={{
+            initialViewState={heatMapData.features.length == 1?{
+                latitude: heatMapData.features[0].geometry.coordinates[1],
+                longitude: heatMapData.features[0].geometry.coordinates[0],
+                zoom: 15
+            }:{
                 latitude: 6.251029,
                 longitude: -75.580353,
                 zoom: 12

@@ -9,7 +9,7 @@ import Filter from "../heatmap/Filter"
 const ListSection = (props: { locationId?: any }) => {
 
     const router = useRouter()
-    const { page, setPage, capacitiesList, PAGE_SIZE, isFilterDivVisible } = useContext(HeatMapContext)
+    const { page, setPage, capacitiesList, PAGE_SIZE  } = useContext(HeatMapContext)
 
 
     const onNextPage = () => {
@@ -24,7 +24,6 @@ const ListSection = (props: { locationId?: any }) => {
     }
 
     return <div className=" rounded-[20px] bg-[var(--secondary-color)]  ">
-
         <Filter className="flex flex-row-reverse " useModal />
 
         <div className="grid grid-cols-1 overflow-auto scrollbar md:h-[700px] h-[500px] divide-y ">
