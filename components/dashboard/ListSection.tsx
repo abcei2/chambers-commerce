@@ -9,7 +9,7 @@ import Filter from "../heatmap/Filter"
 const ListSection = (props: { locationId?: any }) => {
 
     const router = useRouter()
-    const { page, setPage, capacitiesList, PAGE_SIZE, pageAmount } = useContext(HeatMapContext)
+    const { page, setPage, capacitiesList, pageAmount } = useContext(HeatMapContext)
 
 
     const onNextPage = () => {
@@ -26,14 +26,14 @@ const ListSection = (props: { locationId?: any }) => {
 
     return <>
         {
-            capacitiesList ? <div className=" rounded-[20px] bg-[var(--secondary-color)]  ">
+            capacitiesList ? <div className="rounded-[20px] bg-[var(--secondary-color)] h-full">
 
                 <Filter className="flex flex-row-reverse " useModal />
 
-                <div className="shadow-md overflow-auto scrollbar md:h-[700px] h-[500px] divide-y ">
+                <div className="shadow-md overflow-auto scrollbar flex flex-col items-center  divide-y min-h-[83%]">
                     {
                         capacitiesList.map(
-                            (organizationInfo: OrganizationsType, index: number) => <div key={index} className=" px-5  relative  min-h-32 flex flex-col   rounded-[20px]">
+                            (organizationInfo: OrganizationsType, index: number) => <div key={index} className=" px-5  w-full relative  min-h-32 flex flex-col   rounded-[20px]">
                                 <div className="">
 
                                     <div className="font-semibold text-center w-full mt-4">
@@ -69,7 +69,11 @@ const ListSection = (props: { locationId?: any }) => {
                             </div>
                         )
                     }
-
+                    {
+                        pageAmount == 0 && <div className="mt-5">
+                            La existe la capacidad
+                        </div>
+                    }
                 </div>
                 {
                     pageAmount > 0 && <div className="flex flex-col items-center">

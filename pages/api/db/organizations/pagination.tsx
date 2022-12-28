@@ -31,7 +31,6 @@ export default async function handler(
         })
     ])
 
-    console.log(results)
     
     res.status(200).json({ data: results[1], pageAmount: Math.ceil(results[0]._count.id /parseInt(size))})
 }
