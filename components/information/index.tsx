@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { HeatMapContext, HeatMapContextProvider } from "../../context/HeatMapContext"
 import { ListFilterContextProvider } from "../../context/ListFilterContext"
 import ListSection from "../dashboard/ListSection"
 import Loader from "../Loader"
@@ -31,9 +32,9 @@ const LocationInfo = (props: {
         </div>
         <div className="bg-white w-fit rounded-[20px]">
             <div className="text-center w-full text-lg mt-5">Capacidades de la entidad</div>
-            <ListFilterContextProvider>
+            <HeatMapContextProvider>
                 <ListSection />
-            </ListFilterContextProvider>
+            </HeatMapContextProvider>
         </div>
     </div>
 }

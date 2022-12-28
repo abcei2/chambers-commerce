@@ -1,13 +1,12 @@
-import { Context, useContext } from "react";
+import { useContext } from "react";
 import Select from 'react-select'
 import { filterFields } from "../../constants";
+import { HeatMapContext } from "../../context/HeatMapContext";
 import useComponentVisible from "../../hooks/useComponentVisible";
 
-const Filter = (props: {
-    context: Context<any>
-}) => {
+const Filter = () => {
 
-    const { updateData, selectsOption, filterOptions, setFilterOptions } = useContext(props.context)
+    const { updateData, selectsOption, filterOptions, setFilterOptions } = useContext(HeatMapContext)
     const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(true);
 
 

@@ -38,11 +38,27 @@ const unclusteredPointLayer:LayerProps ={
     filter: ['!', ['has', 'point_count']],
     paint: {
         'circle-color': ['get', 'color'],
-        'circle-radius': 4,
+        'circle-radius': 8,
         'circle-stroke-width': 1,
         'circle-stroke-color': '#fff'
+    },
+};
+
+const unclusteredPointTextLayer:LayerProps={
+    id: 'unclustered-labels',
+    type: 'symbol',
+    source: 'organizations',
+    filter: ['!', ['has', 'point_count']],
+    layout: {
+        'text-field': ["slice", ['get','category'] , 0, 1],
+        'text-font': ['DIN Offc Pro Medium',],
+        'text-size': 14,
+    },
+    paint: {
+        'text-color': 'rgba(0,0,0,0.8)'
     }
 };
+
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN; // Set your mapbox token here
 
@@ -149,6 +165,7 @@ const HeatMap = (props:{
                 <Layer {...clusterLayer} />
                 <Layer {...clusterCountLayer} />
                 <Layer {...unclusteredPointLayer} />
+                <Layer {...unclusteredPointTextLayer} />
                 
             </Source>
             

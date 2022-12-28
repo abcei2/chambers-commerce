@@ -3,15 +3,29 @@ import { filterFields } from "../constants";
 import { HEATMAP_BASE_JSON } from "../constants/map";
 
 const HeatMapContext = createContext<any>(null);
+const CIRCLE_COLORS:any  = {
+    'Institución Tecnológica': "#11b4da",
+    'Unidades I+D': "#6fdc7f",
+    'Centros de Innovación': "#c8dc6f",
+    'Institución Universitaria/Escuela Tecnológica': "#dcb26f",
+    'Universidad': "#dc6f6f" ,
+    'Centros de Ciencia': "#c46fdc" ,
+    'Centros de Investigación': "#47a4c9" ,
+}
 
-
+const PAGE_SIZE = 4
 const HeatMapContextProvider = (props: {
     children: React.ReactNode
 }) => {
 
-    const [heatMapData, setHeatMapData] = useState(HEATMAP_BASE_JSON)   
     const [selectsOption, setSelectOption] = useState<any>()
     const [filterOptions, setFilterOptions] = useState<any>({})
+
+
+    const [heatMapData, setHeatMapData] = useState(HEATMAP_BASE_JSON)   
+
+    const [capacitiesList, setCapacitiesList] = useState()
+    const [page, setPage] = useState(0)
 
     useEffect(() => {
         //LOAD FILTER OPTIONS
@@ -36,15 +50,17 @@ const HeatMapContextProvider = (props: {
             }
         )
         //UPDATE HEATMAPDATA
-        updateData()
+        updateHeapmapData()
+        updateCapacitiesList()
     }, [])
+    useEffect(
+        () => {
+            updateCapacitiesList(filterOptions)
+        }, [page]
+    )
 
-    useEffect(() => {
-       
-        //UPDATE HEATMAPDATA
-        updateData()
-    }, [])
-    const updateData = (filterOptions:any={})=>{
+
+    const updateHeapmapData = (filterOptions:any={})=>{
         fetch("/api/db/locations/filtering?" + new URLSearchParams(filterOptions)).then(
             response => response.json()
         ).then(
@@ -59,7 +75,7 @@ const HeatMapContextProvider = (props: {
                                     return {
                                     type: "Feature",
                                     properties: {
-                                        color: "#11b4da",
+                                        color: CIRCLE_COLORS[locationData.category],
                                         ...locationData
 
                                     },
@@ -76,8 +92,33 @@ const HeatMapContextProvider = (props: {
         )
     }
 
+    const updateCapacitiesList = (filterOptions: any = {}) => {
+        fetch(
+            "/api/db/organizations/pagination?" + new URLSearchParams({
+                page: page.toString(),
+                size: PAGE_SIZE.toString(),
+                ...filterOptions
+            })
+        ).then(
+            (data) => data.json()
+        ).then(
+            (chartsDataJson) => setCapacitiesList(chartsDataJson.data)
+        )
+    }
+
+    const updateData = (filterOptions: any = {}) => {
+        updateCapacitiesList(filterOptions)
+        updateHeapmapData(filterOptions)
+    }
+
     return (
-        <HeatMapContext.Provider value={{ heatMapData, updateData, selectsOption, setSelectOption, filterOptions, setFilterOptions }}>
+        <HeatMapContext.Provider value={{ heatMapData, updateHeapmapData,
+            capacitiesList, updateCapacitiesList, 
+            updateData,
+            selectsOption, setSelectOption, 
+            filterOptions, setFilterOptions, 
+            page, setPage, PAGE_SIZE 
+        }}>
             {props.children}
         </HeatMapContext.Provider>
     );

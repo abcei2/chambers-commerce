@@ -61,8 +61,8 @@ const MainChart = (
     }
 
     return <div className=''>
-        <div className='flex justify-between '>
-            <div className='font-extrabold '>{title}  </div>
+        <div className='flex justify-between text-sm'>
+            <div className='font-extrabold  '>{title}  </div>
             {
                 <select className='rounded hover:rounded-none ' onChange={onTypeChange}>
                     {

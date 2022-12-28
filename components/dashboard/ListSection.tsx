@@ -1,7 +1,7 @@
 
 import { useRouter } from "next/router"
-import { useContext, useEffect, useState } from "react"
-import { ListFilterContext } from "../../context/ListFilterContext"
+import { useContext } from "react"
+import { HeatMapContext } from "../../context/HeatMapContext"
 import { OrganizationsType } from "../../types/dbTypes"
 import { nullIfDefault } from "../../utils"
 import Filter from "../heatmap/Filter"
@@ -9,7 +9,7 @@ import Filter from "../heatmap/Filter"
 const ListSection = (props: { locationId?:any}) => {
 
     const router = useRouter()
-    const { page, setPage, listFilterData, PAGE_SIZE } = useContext(ListFilterContext)
+    const { page, setPage, capacitiesList, PAGE_SIZE } = useContext(HeatMapContext)
 
   
     const onNextPage = () => {
@@ -25,11 +25,11 @@ const ListSection = (props: { locationId?:any}) => {
 
     return <div className=" rounded-[20px] bg-[var(--secondary-color)]  ">
 
-        <Filter context={ListFilterContext} />
+        <Filter />
         <div className="grid grid-cols-1 overflow-auto scrollbar md:h-[700px] h-[500px] divide-y ">
             
             {
-                listFilterData && listFilterData.map(
+                capacitiesList && capacitiesList.map(
                     (organizationInfo: OrganizationsType, index: number) => <div key={index} className=" px-5  relative  hover:bg-gray-100 min-h-32 flex flex-col   rounded-[20px]">
                         <div>
 

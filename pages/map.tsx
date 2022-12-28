@@ -1,7 +1,7 @@
 
 import HeatMap from "../components/heatmap";
 import Filter from "../components/heatmap/Filter";
-import { HeatMapContextProvider, HeatMapContext } from "../context/HeatMapContext";
+import { HeatMapContextProvider } from "../context/HeatMapContext";
 
 
 export default function Map() {
@@ -13,7 +13,7 @@ export default function Map() {
 
                 <HeatMap>
                     <div className="py-3 top-28 right-1 pointer-events-none absolute z-2">
-                        <Filter context={HeatMapContext} />
+                        <Filter />
                     </div>
                 </HeatMap>
             </div>
