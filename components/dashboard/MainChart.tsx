@@ -1,7 +1,7 @@
 
 import { Doughnut, Radar, Pie, Bar } from 'react-chartjs-2';
 import "chart.js/auto";
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 
 
@@ -13,12 +13,14 @@ const MainChart = (
 ) => {
     const { data, title } = props
     const chartTypes = ["doughnut", "radar", "pie", "bar"]
-    const [showLegends, setShowLegends]= useState(false)
+    const legendsOnTop = ["radar", "bar"]
+    const chartRef = useRef(null)
+    const [showLegends, setShowLegends] = useState(false)
 
     const [currentType, setCurrentType] = useState<string>()
     const onTypeChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
         setCurrentType(ev.target.value)
-    }  
+    }
 
     const pieDoughnutProps = (options: any, data: any) => {
 
@@ -34,13 +36,24 @@ const MainChart = (
         return { data: withoutLabels, options }
 
     }
+
+    useEffect(
+        () => {
+            if (chartRef.current) {
+                console.log(chartRef.current)
+            }
+        }, [chartRef]
+    )
+
     const currentChart = () => {
-   
+
         let options: any = {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
-                legend:{
+                legend: {
                     display: showLegends,
-                    position: "right",
+                    position: legendsOnTop.includes(currentType || "") ? "top" : "right",
                     overflow: "visible",
                 }
             }
@@ -48,19 +61,19 @@ const MainChart = (
 
         switch (currentType) {
             case "doughnut":
-                return <Doughnut  {...pieDoughnutProps(options, data)}   />
+                return <Doughnut ref={chartRef} {...pieDoughnutProps(options, data)} />
             case "radar":
-                return <Radar  data={data} options={options}  />
+                return <Radar ref={chartRef} data={data} options={options} />
             case "pie":
-                return <Pie  {...pieDoughnutProps(options, data)}  />
+                return <Pie ref={chartRef} {...pieDoughnutProps(options, data)} />
             case "bar":
-                return <Bar  data={data} options={options}  />
+                return <Bar ref={chartRef} data={data} options={options} />
             default:
-                return <Doughnut  {...pieDoughnutProps(options, data)}  />
+                return <Doughnut ref={chartRef} {...pieDoughnutProps(options, data)} />
         }
     }
 
-    return <div className=''>
+    return <div className='flex flex-col'>
         <div className='flex justify-between text-sm'>
             <div className='font-extrabold  '>{title}  </div>
             {
@@ -73,16 +86,17 @@ const MainChart = (
                 </select>
             }
         </div>
-        <div className=' flex justify-center '>
-            <div className='w-[200px] h-[200px]'>
+        <div className=' flex justify-center h-[200px]'>
+            <div className=' h-full overflow-auto'>
 
                 {currentChart()}
             </div>
         </div>
         <div className=' flex gap-3 '>
-            <input type={"checkbox"} onClick={(ev:any)=>setShowLegends(ev.target.checked)}></input>
+            <input type={"checkbox"} onClick={(ev: any) => setShowLegends(ev.target.checked)}></input>
             <label className='text-xs'>Legends</label>
         </div>
+
 
     </div>
 }

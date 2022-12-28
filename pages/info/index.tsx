@@ -14,7 +14,7 @@ export default function Info() {
         }, [route.query.locationId]
     )
 
-    return  locationId?<div className = "lg:px-5  w-full h-screen relative  ">
+    return  locationId?<div className = "lg:px-5  w-full h-full relative  ">
         <InformationContextProvider locationId={locationId}>
             < LocationInfo  />
         </InformationContextProvider>

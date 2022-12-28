@@ -5,7 +5,7 @@ import { HeatMapContextProvider } from "../context/HeatMapContext";
 
 
 export default function Map() {
-    return <div className="lg:p-5  w-full md:h-[800px] h-[700px] relative  ">
+    return <div className="lg:p-5  w-full md:h-[900px] h-[700px] relative  ">
 
         <HeatMapContextProvider>
           

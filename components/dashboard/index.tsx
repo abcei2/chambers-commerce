@@ -7,7 +7,7 @@ import ListSection from "./ListSection"
 
 
 const Dashboard = () => {
-    return <div className="md:h-[700px] min-h-[500px]">
+    return <div className="md:h-[900px] min-h-[500px]">
         <HeatMapContextProvider>
 
         

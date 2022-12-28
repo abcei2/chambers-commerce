@@ -48,7 +48,13 @@ export const getChartData = async (fieldName: any) => {
     const totalCapacities = await prisma.organizations.count()
 
     charData.labels = groupBy.map(
-        (item) => item[fieldName].toString()
+        (item) => {
+            const showName = item[fieldName].toString()
+            if(showName.length>8){
+                return showName.slice(0,8) + "..."
+            }
+            return showName
+        }
     )
 
     charData.datasets[0].data = groupBy.map(
