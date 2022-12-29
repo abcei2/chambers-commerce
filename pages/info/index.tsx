@@ -12,8 +12,20 @@ export default function Info() {
         () => {
             const noTypeData:any = route.query
             const {locationId:locId, capacityId:capId} = noTypeData
-            setLocationId(locId)
-            setCapacityId(capId)
+            if (!locId || !capId){
+                fetch("/api/db/organizations/findFirst").then(
+                    data => data.json()
+                ).then(
+                    jsonData => {
+                        setLocationId(jsonData.locationId)
+                        setCapacityId(jsonData.organizationId)
+                    }
+                )
+            }else{
+
+                setLocationId(locId)
+                setCapacityId(capId)
+            }
         }, [route.query.locationId, route.query.capacityId]
     )
 

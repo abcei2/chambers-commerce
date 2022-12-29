@@ -15,8 +15,8 @@ export default async function handler(
 
     const organizationData: any = await prisma.organizations.findUnique({
         where: {
-            id: parseInt(id),
-        },
+            id: parseInt(id)
+        }
     })
     if (!organizationData) {
 
