@@ -7,8 +7,8 @@ const MenuLayout = (props:{
     const [showNames, setShowNames] = useState(false)
     const router = useRouter()
     return <div className="">
-        <div className="bg-gray-200 h-20 p-4 ">
-            <img src="/logo.png" className="h-16"/>
+        <div className="bg-gray-200 ">
+            <img src="/logo.png" className="h-[120px]"/>
         </div>
         <div className="py-5 md:pl-2">
             <div className="flex flex-col bg-[var(--secondary-color)] absolute rounded-[20px]   justify-center   z-10 " onMouseEnter={() => setShowNames(true)}
