@@ -28,7 +28,7 @@ const ListSection = (props: { locationId?: any }) => {
         {
             capacitiesList ? <div className="rounded-[20px] bg-[var(--secondary-color)] h-full">
 
-                <Filter className="flex flex-row-reverse " useModal />
+                <Filter className="flex flex-row-reverse md:flex-col lg:flex-row  lg:p-1  flex-row justify-between items-center" useModal />
 
                 <div className="shadow-md overflow-auto scrollbar flex flex-col items-center  divide-y min-h-[83%]">
                     {

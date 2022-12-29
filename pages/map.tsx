@@ -13,7 +13,7 @@ export default function Map() {
 
                 <HeatMap>
                     <div className="py-3 top-28 right-1 pointer-events-none absolute z-2">
-                        <Filter />
+                        <Filter className="flex flex-col gap-2" />
                     </div>
                 </HeatMap>
             </div>
