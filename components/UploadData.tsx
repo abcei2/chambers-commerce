@@ -1,6 +1,6 @@
 
 import readXlsxFile, { Row } from 'read-excel-file'
-import { floatFields, integerFields, locationFields, organizationFields } from '../constants';
+import { floatFields, integerFields, locationFields, ORGANIZATION_FIELDS } from '../constants';
 // File.
 
 
@@ -31,7 +31,7 @@ const UploadData = () => {
 
         const locationRows = await readXlsxFile(ev.target.files[0], { sheet: 2 })
         const organizationRows = await readXlsxFile(ev.target.files[0], { sheet: 1 })
-        const organizationData = await toDbData(organizationRows, organizationFields)
+        const organizationData = await toDbData(organizationRows, ORGANIZATION_FIELDS.map((organizationField) => organizationField.name))
         const locationData = (await toDbData(locationRows, locationFields, 1)).map(
             (locationObj: any) => (
                 {

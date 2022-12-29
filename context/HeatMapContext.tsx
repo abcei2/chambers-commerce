@@ -2,6 +2,10 @@ import { createContext, useEffect, useState } from "react";
 import { filterFields, filterFieldsNoLocationsInfo } from "../constants";
 import { CIRCLE_COLORS, HEATMAP_BASE_JSON } from "../constants/map";
 import useComponentVisible from "../hooks/useComponentVisible";
+import writeXlsxFile from 'write-excel-file'
+import { getOrganizationSchema } from "../utils/excel";
+
+
 
 const HeatMapContext = createContext<any>(null);
 
@@ -61,7 +65,6 @@ const HeatMapContextProvider = (props: {
                 )
             }
         )
-        //UPDATE HEATMAPDATA
 
         updateHeapmapData()
         updateCapacitiesList()
@@ -73,6 +76,18 @@ const HeatMapContextProvider = (props: {
         }, [page]
     )
 
+    const downloadOrganizationData = async() =>{
+        const excelObjects = heatMapData.features.reduce(
+            (prevtFeature: any, currentFeature: any) => [...prevtFeature, ...currentFeature.properties.organizations],[]
+        )
+
+        console.log(excelObjects)
+        await writeXlsxFile(excelObjects, {
+            schema:getOrganizationSchema(),
+            fileName: 'file.xlsx'
+        })
+        
+    }
     const clearPopup = () =>{
         setShowPopup(false)
         setPopUpCoordinates(
@@ -168,7 +183,9 @@ const HeatMapContextProvider = (props: {
             updateData,
             selectsOption, setSelectOption,
             filterOptions, setFilterOptions,
-            filterDiv, isFilterDivVisible, setIsFilterDivVisible
+            filterDiv, isFilterDivVisible, setIsFilterDivVisible,
+
+            downloadOrganizationData
         }}>
             {props.children}
         </HeatMapContext.Provider>
