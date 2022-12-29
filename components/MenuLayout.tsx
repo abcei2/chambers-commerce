@@ -7,7 +7,7 @@ const MenuLayout = (props:{
     const [showNames, setShowNames] = useState(false)
     const router = useRouter()
     return <div className="">
-        <button className=" " onClick={() => router.push("/")}>
+        <button className="w-full bg-[var(--header-color)] " onClick={() => router.push("/")}>
             <img src="/logo.png" className="h-[120px]"/>
         </button>
         <div className="py-5 md:pl-2">
