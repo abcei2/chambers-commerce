@@ -67,9 +67,6 @@ const MainChart = (
                     position: legendsOnTop.includes(currentType || "") ? "top" : "right",
                     overflow: "scroll",
                 }
-            },
-            tooltip: {
-                caretSize: 0
             }
         }
 

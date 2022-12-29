@@ -33,7 +33,7 @@ export const getChartData = async (fieldName: any) => {
         labels: [],
         datasets: [
             {
-                label: '% de capacidades',
+                label: '%',
                 data: []
             },
         ],
