@@ -52,7 +52,7 @@ export const unclusteredPointTextLayer: LayerProps = {
     layout: {
         'text-field': ["slice", ['get', 'category'], 0, 1],
         'text-font': ['DIN Offc Pro Medium',],
-        'text-size': 14,
+        'text-size': 16,
     },
     paint: {
         'text-color': 'black'
