@@ -6,16 +6,19 @@ import { HeatMapContextProvider } from "../../context/HeatMapContext";
 export default function Info() {
     const route = useRouter()
     const [locationId, setLocationId] = useState()
+    const [capacityId, setCapacityId] = useState()
     
     useEffect(
         () => {
-            const locId:any = route.query.locationId
+            const noTypeData:any = route.query
+            const {locationId:locId, capacityId:capId} = noTypeData
             setLocationId(locId)
-        }, [route.query.locationId]
+            setCapacityId(capId)
+        }, [route.query.locationId, route.query.capacityId]
     )
 
-    return locationId ? <div className="lg:px-5  w-full h-full relative  ">
-        <HeatMapContextProvider locationId={locationId}>
+    return (locationId && capacityId) ? <div className="lg:px-5  w-full h-full relative  ">
+        <HeatMapContextProvider locationId={locationId} capacityId={capacityId}>
             < LocationInfo  />
         </HeatMapContextProvider>
     </div >: <></>

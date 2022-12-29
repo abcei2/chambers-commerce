@@ -5,7 +5,7 @@ export type User = {
 }
 
 export type OrganizationsType = {
-
+    id?:number,
     locationId?: number,
 
     organization: string,

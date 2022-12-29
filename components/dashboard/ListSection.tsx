@@ -47,9 +47,9 @@ const ListSection = (props: { locationId?: any }) => {
                                         {
                                             nullIfDefault(organizationInfo.invGroup) ? "Grupo de investigación" : null ||
                                                 nullIfDefault(organizationInfo.rdUnits) ? "Unidad I+D" : null ||
-                                                    nullIfDefault(organizationInfo.minicienciasCategory) ? "Categoría de minciencias" : null ||
-                                                        nullIfDefault(organizationInfo.center) ? "Centro" : null ||
-                                                            nullIfDefault(organizationInfo.laboratory) ? "Laboratorio" : null
+                                                    nullIfDefault(organizationInfo.center) ? "Centro" : null ||
+                                                        nullIfDefault(organizationInfo.laboratory) ? "Laboratorio" : null ||
+                                                            nullIfDefault(organizationInfo.minicienciasCategory) ? "Categoría de minciencias" : null
                                         }
                                         <br />
                                         <span className="font-semibold">Entidad: </span>
@@ -61,7 +61,7 @@ const ListSection = (props: { locationId?: any }) => {
                                 </div>
                                 <button onClick={() => router.push({
                                     pathname: '/info',
-                                    query: { locationId: organizationInfo.locationId },
+                                    query: { locationId: organizationInfo.locationId, capacityId: organizationInfo.id },
                                 })}
                                     className="text-center text-md hover:bg-red-700 text-white self-center font-semibold bg-[var(--primary-color)] w-[80%] rounded-[20px] m-5">
                                     Más información
@@ -93,7 +93,7 @@ const ListSection = (props: { locationId?: any }) => {
                         </span>
                     </div>
                 }
-             
+
 
             </div> : undefined
 

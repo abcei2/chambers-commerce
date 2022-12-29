@@ -13,7 +13,8 @@ const HeatMapContext = createContext<any>(null);
 const PAGE_SIZE = 4
 const HeatMapContextProvider = (props: {
     children: React.ReactNode,
-    locationId?: any
+    locationId?:string,
+    capacityId?:string
 }) => {
 
     const { ref: filterDiv, isComponentVisible: isFilterDivVisible, setIsComponentVisible: setIsFilterDivVisible } = useComponentVisible(false);
@@ -30,6 +31,7 @@ const HeatMapContextProvider = (props: {
     })
 
     const [capacitiesList, setCapacitiesList] = useState()
+    const [currentCapacity, setCurrentCapacity] = useState()
     const [pageAmount, setPageAmount] = useState(0)
     const [page, setPage] = useState(0)
 
@@ -68,20 +70,35 @@ const HeatMapContextProvider = (props: {
 
         updateHeapmapData()
         updateCapacitiesList()
+
+      
     }, [])
 
+    useEffect(
+        () =>{
+            if (props.capacityId)
+                updateCurrentCapacity(props.capacityId)
+        }, [props.capacityId]
+    )
     useEffect(
         () => {
             updateCapacitiesList(filterOptions)
         }, [page]
     )
 
+    const updateCurrentCapacity = (capacityId:string) =>{
+        fetch("/api/db/organizations/findUnique?id=" + capacityId).then(
+            (resp) => resp.json()
+        ).then(
+            (jsonData) => setCurrentCapacity(jsonData.data)
+        )
+    }
+
     const downloadOrganizationData = async() =>{
         const excelObjects = heatMapData.features.reduce(
             (prevtFeature: any, currentFeature: any) => [...prevtFeature, ...currentFeature.properties.organizations],[]
         )
 
-        console.log(excelObjects)
         await writeXlsxFile(excelObjects, {
             schema:getOrganizationSchema(),
             fileName: 'file.xlsx'
@@ -177,7 +194,9 @@ const HeatMapContextProvider = (props: {
             popUpCoordinates, setPopUpCoordinates, 
             setShowPopup, showPopup, clearPopup,
 
-            capacitiesList, updateCapacitiesList, pageAmount,
+            capacitiesList, updateCapacitiesList, 
+            currentCapacity, updateCurrentCapacity,
+            pageAmount,
             page, setPage, PAGE_SIZE,
 
             updateData,

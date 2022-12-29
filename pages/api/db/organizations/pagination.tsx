@@ -28,6 +28,11 @@ export default async function handler(
             where,
             skip: parseInt(page) * parseInt(size),
             take: parseInt(size),
+            orderBy: [
+                {
+                    locationId: 'desc',
+                }
+            ],
         })
     ])
 

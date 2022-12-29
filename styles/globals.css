@@ -74,4 +74,25 @@
     .scrollbar::-webkit-scrollbar-thumb:hover {
         background: #c0a0b9;
     }
+
+    .red-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        
+    }
+
+    .red-scrollbar::-webkit-scrollbar-track {
+        border-radius: 100vh;
+        background: var(--primary-color);
+        margin: 2rem;
+    }
+
+
+    .red-scrollbar::-webkit-scrollbar-thumb {
+        background: var(--secondary-color);
+        border-radius: 100vh;
+        border: 2px solid var(--primary-color);
+    }
+
+  
 }
