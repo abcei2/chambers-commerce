@@ -18,16 +18,23 @@ export default async function handler(
             id: parseInt(id),
         },
     })
-    const { organization, laboratory, center, rdUnits, invGroup, minicienciasCategory, ...organizationDataLeft } = organizationData
+    if (!organizationData) {
 
-
-    res.status(200).json({
-        data: {
-            ...organizationDataLeft,
-            name: nullIfDefault(invGroup) || nullIfDefault(rdUnits) || nullIfDefault(center) || nullIfDefault(laboratory) || nullIfDefault(minicienciasCategory)
-
-
+        res.status(200).json({
+            data: {}
+        })
     }
-    })
+    else {
+        const { organization, laboratory, center, rdUnits, invGroup, minicienciasCategory, ...organizationDataLeft } = organizationData
+
+
+        res.status(200).json({
+            data: {
+                ...organizationDataLeft,
+                name: nullIfDefault(invGroup) || nullIfDefault(rdUnits) || nullIfDefault(center) || nullIfDefault(laboratory) || nullIfDefault(minicienciasCategory)
+            }
+        })
+    }
 }
+
 

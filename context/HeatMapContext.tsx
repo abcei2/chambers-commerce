@@ -17,9 +17,12 @@ const HeatMapContextProvider = (props: {
     capacityId?:string
 }) => {
 
+    const [locationId, setLocationId] = useState<any>(props.locationId)
+
     const { ref: filterDiv, isComponentVisible: isFilterDivVisible, setIsComponentVisible: setIsFilterDivVisible } = useComponentVisible(false);
     const [selectsOption, setSelectOption] = useState<any>()
     const [filterOptions, setFilterOptions] = useState<any>({})
+    const [locationsOptions, setLocationsOptions] = useState()
 
     const [heatMapData, setHeatMapData] = useState(HEATMAP_BASE_JSON)
     const [showPopup, setShowPopup] = useState(false)
@@ -35,6 +38,12 @@ const HeatMapContextProvider = (props: {
     const [pageAmount, setPageAmount] = useState(0)
     const [page, setPage] = useState(0)
 
+    useEffect(
+        ()=>{
+            setLocationId(props.locationId)
+        },[props.locationId]
+    )
+
     useEffect(() => {
         if (showPopup) {
             setPopUpCoordinates((oldCoordinates) => ({
@@ -47,7 +56,7 @@ const HeatMapContextProvider = (props: {
 
     useEffect(() => {
         //LOAD FILTER OPTIONS
-        Object.keys(props.locationId?filterFieldsNoLocationsInfo:filterFields).forEach(
+        Object.keys(locationId?filterFieldsNoLocationsInfo:filterFields).forEach(
             (filterKey: any) => {
                 fetch("/api/db/organizations/distincts?" + new URLSearchParams({
                     field: filterKey,
@@ -70,7 +79,7 @@ const HeatMapContextProvider = (props: {
 
         updateHeapmapData()
         updateCapacitiesList()
-
+        allLocationNamesAndId()
       
     }, [])
 
@@ -85,6 +94,18 @@ const HeatMapContextProvider = (props: {
             updateCapacitiesList(filterOptions)
         }, [page]
     )
+
+    const allLocationNamesAndId = ()=>{
+        fetch("/api/db/locations/distincts?" + new URLSearchParams({
+            field: "organization",
+        })).then(
+            response => response.json()
+        ).then(
+            (jsonData) => {
+                setLocationsOptions(jsonData)
+            }
+        )
+    }
 
     const updateCurrentCapacity = (capacityId:string) =>{
         fetch("/api/db/organizations/findUnique?id=" + capacityId).then(
@@ -117,10 +138,10 @@ const HeatMapContextProvider = (props: {
         )
     }
     
-    const updateHeapmapData = (filterOptions: any = {}) => {
+    const updateHeapmapData = (filterOptions: any = {}, locationIdParam:string=locationId) => {
         fetch("/api/db/locations/filtering?" + new URLSearchParams({
             ...filterOptions,
-            ...({ locationId: props.locationId } || {})
+            ...({ locationId: locationIdParam } || {})
         })).then(
             response => response.json()
         ).then(
@@ -169,7 +190,7 @@ const HeatMapContextProvider = (props: {
             "/api/db/organizations/pagination?" + new URLSearchParams({
                 page: page.toString(),
                 size: PAGE_SIZE.toString(),
-                ...({ locationId: props.locationId } || {}),
+                ...({ locationId } || {}),
                 ...filterOptions
             })
         ).then(
@@ -184,7 +205,7 @@ const HeatMapContextProvider = (props: {
 
     const updateData = (filterOptions: any = {}) => {
         updateCapacitiesList(filterOptions)
-        if(!props.locationId)
+        if(!locationId)
             updateHeapmapData(filterOptions)
     }
 
@@ -204,7 +225,11 @@ const HeatMapContextProvider = (props: {
             filterOptions, setFilterOptions,
             filterDiv, isFilterDivVisible, setIsFilterDivVisible,
 
-            downloadOrganizationData
+            downloadOrganizationData,
+
+            locationsOptions,
+
+            locationId
         }}>
             {props.children}
         </HeatMapContext.Provider>
