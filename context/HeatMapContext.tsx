@@ -14,7 +14,8 @@ const PAGE_SIZE = 4
 const HeatMapContextProvider = (props: {
     children: React.ReactNode,
     locationId?:string,
-    capacityId?:string
+    capacityId?:string,
+    filterByLocation?:boolean
 }) => {
 
     const [locationId, setLocationId] = useState<any>(props.locationId)
@@ -56,7 +57,8 @@ const HeatMapContextProvider = (props: {
 
     useEffect(() => {
         //LOAD FILTER OPTIONS
-        Object.keys(locationId?filterFieldsNoLocationsInfo:filterFields).forEach(
+        const {locationId:locId, ...filterFieldsNoLocId} = filterFields
+        Object.keys(locationId ? filterFieldsNoLocationsInfo : filterFieldsNoLocId).forEach(
             (filterKey: any) => {
                 fetch("/api/db/organizations/distincts?" + new URLSearchParams({
                     field: filterKey,
@@ -102,6 +104,17 @@ const HeatMapContextProvider = (props: {
             response => response.json()
         ).then(
             (jsonData) => {
+                if(props.filterByLocation)
+                {
+                    setSelectOption(
+                        (oldSelectOpts: any) => {
+                            return {
+                                ...oldSelectOpts,
+                                locationId: jsonData
+                            }
+                        }
+                    )
+                }
                 setLocationsOptions(jsonData)
             }
         )
@@ -139,10 +152,11 @@ const HeatMapContextProvider = (props: {
     }
     
     const updateHeapmapData = (filterOptions: any = {}, locationIdParam:string=locationId) => {
-        fetch("/api/db/locations/filtering?" + new URLSearchParams({
+        const queryData = {
             ...filterOptions,
-            ...({ locationId: locationIdParam } || {})
-        })).then(
+            ...(locationIdParam?{ locationId: locationIdParam }:{})
+        }
+        fetch("/api/db/locations/filtering?" + new URLSearchParams(queryData)).then(
             response => response.json()
         ).then(
             (jsonData) => {
@@ -186,6 +200,7 @@ const HeatMapContextProvider = (props: {
     }
 
     const updateCapacitiesList = (filterOptions: any = {}) => {
+        
         fetch(
             "/api/db/organizations/pagination?" + new URLSearchParams({
                 page: page.toString(),

@@ -54,6 +54,7 @@ export const filterFields:any = {
     productiveSector: "Sector Productivo",
     municipality:"Municipio",
     ri4Type: "Tipo de 4RI",
+    locationId: "Entidad"
 }
 
 export const filterFieldsNoLocationsInfo: any = {

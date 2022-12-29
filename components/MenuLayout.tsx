@@ -7,9 +7,11 @@ const MenuLayout = (props:{
     const [showNames, setShowNames] = useState(false)
     const router = useRouter()
     return <div className="">
-        <button className="w-full bg-[var(--header-color)] " onClick={() => router.push("/")}>
-            <img src="/logo.png" className="h-[120px]"/>
-        </button>
+        <div className="w-full bg-[var(--header-color)] " >
+            <button>
+                <img src="/logo.png" className="h-[120px]" onClick={() => router.push("/")} />
+            </button>
+        </div>
         <div className="py-5 md:pl-2">
             <div className="flex flex-col bg-[var(--secondary-color)] absolute rounded-[20px]   justify-center   z-10 " 
                 onMouseLeave={() => setShowNames(false)}>

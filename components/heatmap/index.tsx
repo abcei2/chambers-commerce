@@ -151,12 +151,12 @@ const HeatMap = (props: {
                     id="organizations"
                     type="geojson"
                     data={heatMapData}
-                    cluster={heatMapData.features.length > 1}
+                    cluster={true}
                     clusterMaxZoom={14}
                     clusterRadius={50}
                 >
-                    {heatMapData.features.length > 1 && <Layer {...clusterLayer} />}
-                    {heatMapData.features.length > 1 && <Layer {...clusterCountLayer} />}
+                    <Layer {...clusterLayer} />
+                     <Layer {...clusterCountLayer} />
                     <Layer {...unclusteredPointLayer} />
                     <Layer {...unclusteredPointTextLayer} />
 

@@ -10,7 +10,6 @@ export default async function handler(
 ) {
     const noTypeData:any = req.query
     const { page, size, locationId, ...filterParams } = noTypeData
-
     const where = parseInt(locationId) ? {
         ...filterParams,
         locationId: parseInt(locationId)
@@ -25,6 +24,7 @@ export default async function handler(
     })).filter(
         (result)=> result.organizations.length > 0
     )
+
     res.status(200).json({ data: results })
 }
 
