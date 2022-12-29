@@ -38,7 +38,7 @@ export const unclusteredPointLayer: LayerProps = {
     filter: ['!', ['has', 'point_count']],
     paint: {
         'circle-color': ['get', 'color'],
-        'circle-radius': 8,
+        'circle-radius': 10,
         'circle-stroke-width': 1,
         'circle-stroke-color': '#fff'
     },
@@ -55,7 +55,7 @@ export const unclusteredPointTextLayer: LayerProps = {
         'text-size': 14,
     },
     paint: {
-        'text-color': 'rgba(0,0,0,0.8)'
+        'text-color': 'black'
     }
 };
 
