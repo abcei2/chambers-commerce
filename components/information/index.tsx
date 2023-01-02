@@ -48,27 +48,30 @@ const LocationInfo = () => {
                     <div>
                         <Profile info={heatMapData.features[0].properties} />
                     </div>
-                    <div className="p-2 bg-[var(--secondary-color)] rounded-[20px] mb-2  h-96 md:h-full overflow-auto red-scrollbar">
-                        <div className="grid grid-cols-1 text-sm py-1">
-                            <label className="font-semibold uppercase text-center">{currentCapacity["name"]}</label>
-                        </div>
-                        {
-                            Object.keys(currentCapacity).map(
-                                (capacityParam: string, index) => {
-                                    const currentField = ORGANIZATION_FIELDS.find(
-                                        (organizationField: any) => organizationField.name == capacityParam
-                                    )
-                                    if (!currentField)
-                                        return <></>
-                                    return <div key={index} className="grid grid-cols-1 text-sm py-1">
-                                        <label className="font-semibold">{currentField.showName}:</label>
-                                        <span className="col-span-2 "> {currentCapacity[currentField.name]} </span>
-                                    </div>
-                                }
-                            )
-                        }
+                    {
+                        currentCapacity && <div className="p-2 bg-[var(--secondary-color)] rounded-[20px] mb-2  h-96 md:h-full overflow-auto red-scrollbar">
+                            <div className="grid grid-cols-1 text-sm py-1">
+                                <label className="font-semibold uppercase text-center">{currentCapacity["name"]}</label>
+                            </div>
+                            {
+                                Object.keys(currentCapacity).map(
+                                    (capacityParam: string, index) => {
+                                        const currentField = ORGANIZATION_FIELDS.find(
+                                            (organizationField: any) => organizationField.name == capacityParam
+                                        )
+                                        if (!currentField)
+                                            return <></>
+                                        return <div key={index} className="grid grid-cols-1 text-sm py-1">
+                                            <label className="font-semibold">{currentField.showName}:</label>
+                                            <span className="col-span-2 "> {currentCapacity[currentField.name]} </span>
+                                        </div>
+                                    }
+                                )
+                            }
 
-                    </div>
+                        </div>
+                    }
+                    
                 </div>
                 <div className="md:col-span-2 px-5  h-full">
                     <HeatMap>
