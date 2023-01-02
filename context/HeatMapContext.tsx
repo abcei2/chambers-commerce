@@ -42,8 +42,9 @@ const HeatMapContextProvider = (props: {
     useEffect(
         ()=>{
             setLocationId(props.locationId)
-        },[props.locationId]
+        },[]
     )
+ 
 
     useEffect(() => {
         if (showPopup) {
@@ -199,6 +200,48 @@ const HeatMapContextProvider = (props: {
         )
     }
 
+    const updateProfileMapData = (locationIdParam: string) => {
+        fetch("/api/db/locations/findUnique?" + new URLSearchParams({
+            id: locationIdParam
+        })).then(
+            response => response.json()
+        ).then(
+            (jsonData) => {
+                setLocationId(locationIdParam)
+                const locationData = jsonData.data
+                setPopUpCoordinates(
+                    {
+                        showPopup: false,
+                        latitude: locationData.lat,
+                        longitude: locationData.long,
+                        info: locationData
+                    }
+                )
+                setShowPopup(true)
+                
+                setHeatMapData(
+                    (oldHeatMapData: any) => {
+                        return {
+                            ...oldHeatMapData,
+                            features: [{
+                                type: "Feature",
+                                properties: {
+                                    color: CIRCLE_COLORS[locationData.category],
+                                    ...locationData
+
+                                },
+                                geometry: {
+                                    type: "Point",
+                                    coordinates: [locationData.long || 0, locationData.lat || 0, 0]
+                                }
+                            }]
+                        }
+                    }
+                )
+            }
+        )
+    }
+
     const updateCapacitiesList = (filterOptions: any = {}) => {
         
         fetch(
@@ -213,15 +256,23 @@ const HeatMapContextProvider = (props: {
         ).then(
             (chartsDataJson) => {
                 setCapacitiesList(chartsDataJson.data)
+                setCurrentCapacity(chartsDataJson.data[0])
                 setPageAmount(chartsDataJson.pageAmount)
             }
         )
     }
 
-    const updateData = (filterOptions: any = {}) => {
-        updateCapacitiesList(filterOptions)
-        if(!locationId)
-            updateHeapmapData(filterOptions)
+    const updateData = (filterOptions: any = {}, locationIdParam?: string) => {
+        setPage(0)
+        if (!locationIdParam){
+            updateCapacitiesList({ ...filterOptions })
+            updateHeapmapData({ ...filterOptions })
+        }
+        else{
+            updateProfileMapData(locationIdParam)
+            updateCapacitiesList({ ...filterOptions, locationId: locationIdParam })
+            setLocationId(locationIdParam)
+        }
     }
 
     return (
@@ -244,7 +295,7 @@ const HeatMapContextProvider = (props: {
 
             locationsOptions,
 
-            locationId
+            locationId, setLocationId
         }}>
             {props.children}
         </HeatMapContext.Provider>

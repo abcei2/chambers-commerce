@@ -13,7 +13,7 @@ export default function Info() {
             const noTypeData:any = route.query
             const {locationId:locId, capacityId:capId} = noTypeData
             if (!locId || !capId){
-                fetch("/api/db/organizations/findFirst").then(
+                fetch("/api/db/organizations/findFirstRand").then(
                     data => data.json()
                 ).then(
                     jsonData => {
@@ -22,7 +22,6 @@ export default function Info() {
                     }
                 )
             }else{
-
                 setLocationId(locId)
                 setCapacityId(capId)
             }

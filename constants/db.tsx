@@ -90,3 +90,10 @@ export const LOCATIONS_DATA4_QUERY = Prisma.sql`
     ) a
 `
 
+
+export const GET_RAND_ORGANIZATION = Prisma.sql`
+    SELECT *
+    FROM Organizations
+    ORDER BY RAND()
+    LIMIT 1
+`

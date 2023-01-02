@@ -8,7 +8,7 @@ import Loader from "../Loader"
 import Profile from "./Profile"
 
 const LocationInfo = () => {
-    const { heatMapData, currentCapacity, locationsOptions, locationId, setFilterOptions, updateData, updateCurrentCapacity, updateHeapmapData } = useContext(HeatMapContext)
+    const { setLocationId, popUpCoordinates, currentCapacity, locationsOptions, locationId, setFilterOptions, updateData } = useContext(HeatMapContext)
 
 
     return <div className="p-4 md:p-0">
@@ -24,16 +24,9 @@ const LocationInfo = () => {
                         (ev: any) => {
                             setFilterOptions(
                                 (oldFilterOpts: any) => {
-                                    const newFiltersOpts = {
-                                        ...oldFilterOpts,
-                                        locationId: ev.value
-                                    }
-                                    updateData(newFiltersOpts)
-
-                                    updateHeapmapData(newFiltersOpts, ev.value)
-                                    updateCurrentCapacity(locationsOptions.find(
-                                        (opt: any) => opt.value == ev.value
-                                    ).firtsOrganizationId)
+                                    const newFiltersOpts = {}
+                                    updateData(newFiltersOpts, ev.value)
+                                 
                                     return newFiltersOpts
                                 }
                             )
@@ -43,10 +36,10 @@ const LocationInfo = () => {
         }
         
         {
-            heatMapData.features.length > 0 && locationsOptions ? <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:h-[800px]   ">
+            popUpCoordinates.info  && locationsOptions ? <div className="grid grid-cols-1 md:grid-cols-4 gap-2 md:h-[800px]   ">
                 <div className="ml-5 flex flex-col gap-2  h-fit md:h-full  overflow-hidden rounded-[20px]">
                     <div>
-                        <Profile info={heatMapData.features[0].properties} />
+                        <Profile {...popUpCoordinates} />
                     </div>
                     {
                         currentCapacity && <div className="p-2 bg-[var(--secondary-color)] rounded-[20px] mb-2  h-96 md:h-full overflow-auto red-scrollbar">
@@ -60,7 +53,7 @@ const LocationInfo = () => {
                                             (organizationField: any) => organizationField.name == capacityParam
                                         )
                                         if (!currentField)
-                                            return <></>
+                                            return <div key={index}></div>
                                         return <div key={index} className="grid grid-cols-1 text-sm py-1">
                                             <label className="font-semibold">{currentField.showName}:</label>
                                             <span className="col-span-2 "> {currentCapacity[currentField.name]} </span>
