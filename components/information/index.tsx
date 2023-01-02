@@ -9,7 +9,7 @@ import Profile from "./Profile"
 
 const LocationInfo = () => {
     const { heatMapData, currentCapacity, locationsOptions, locationId, setFilterOptions, updateData, updateCurrentCapacity, updateHeapmapData } = useContext(HeatMapContext)
-    console.log(heatMapData)
+
 
     return <div className="p-4 md:p-0">
         {

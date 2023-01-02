@@ -1,12 +1,35 @@
+import { useRouter } from "next/router"
+
 const Profile = (props: { info: any }) => {
     const { info } = props
+    const organizations = typeof (info.organizations) == "string" ? JSON.parse(info.organizations) : info.organizations
+    const router = useRouter()
+    const isMapPopup = !router.pathname.includes("info") 
+    const seeMore = () => !isMapPopup ? "" : router.push({
+        pathname: '/info',
+        query: { locationId: info.id, capacityId: organizations.length > 0 ? organizations[0].id : -1 },
+    })
     return <div className="bg-white w-full p-5 rounded-xl flex flex-col gap-2 text-xs overflow-hidden ">
-        <div className="text-sm font-semibold">
-            Entidad
+        <div className="flex justify-between items-center">
+            <div className="text-sm font-semibold">
+                Entidad
+            </div>
+            {
+                isMapPopup && <button onClick={seeMore} className="text-xs  hover:text-blue-400 hover:underline">
+                    Ver más
+                </button>
+            }
+       
+
         </div>
-        <div className="text-sm text-center my-5">
-            {info.organization}
-        </div>
+        {
+            isMapPopup ? <button onClick={seeMore} className="hover:text-blue-400 hover:underline text-sm text-center my-5">
+                {info.organization}
+            </button> : <div className="text-sm text-center my-5">
+                {info.organization}
+            </div>
+        }
+ 
 
         <div className="flex gap-4  items-center ">
             <div>
