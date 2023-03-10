@@ -51,6 +51,7 @@ model Organizations {
   minicienciasCategory String
   center               String
   laboratory           String
+  gruplac              String @db.Text
 
   ri4     Int
   ri4Type String

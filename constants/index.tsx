@@ -18,6 +18,7 @@ export const ORGANIZATION_FIELDS = [
     { name: 'rdUnits', showName: 'Unidades I+D' },
     { name: 'invGroup', showName: 'Categoria Minciencias' },
     { name: 'minicienciasCategory', showName: 'Categoria Minciencias' },
+    { name: 'gruplac', showName: 'GRUPLAC' },
     { name: 'center', showName: 'Centro' },
     { name: 'laboratory', showName: 'Laboratorio' },
     { name: 'ri4', showName: '4RI' },
@@ -60,5 +61,5 @@ export const filterFields:any = {
 export const filterFieldsNoLocationsInfo: any = {
     area: "Area",
     productiveSector: "Sector Productivo",
-    ri4Type: "Tipo de 4RI",
+    ri4Type: "Tipo de 4RI"
 }
